@@ -1,0 +1,1443 @@
+
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Kashmir Watershed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#eef1f5; --bg-elev:#ffffff; --ink:#141c2b; --ink-dim:#5b6478; --line:#d7dce6;
+    --river:#2f6fb0; --glacier:#8fc4de; --meadow:#7d8f4a; --orchard:#c65a3f; --paddy:#3f8a5a;
+    --forest:#2f6b3f; --urban:#8a6a3a; --water:#2f6fb0; --warn:#c0392b;
+    --gold:#a1731e; --panel-shadow:0 16px 40px -22px rgba(20,28,43,.16);
+    --peak:#c9cfd9; --slope1:#c7d3b8; --slope2:#a9bd8f; --floor:#e7e2c9;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0b0f18; --bg-elev:#121826; --ink:#eef1f7; --ink-dim:#8b93aa; --line:#232c40;
+      --river:#5fa8e6; --glacier:#a9d8ec; --meadow:#9db06a; --orchard:#e0765a; --paddy:#5cb87f;
+      --forest:#4a9760; --urban:#c99a5a; --water:#5fa8e6; --warn:#e2574c;
+      --gold:#e0b354; --panel-shadow:0 16px 44px -22px rgba(0,0,0,.55);
+      --peak:#4a5468; --slope1:#2c3a2c; --slope2:#22301f; --floor:#232a20;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0b0f18; --bg-elev:#121826; --ink:#eef1f7; --ink-dim:#8b93aa; --line:#232c40;
+    --river:#5fa8e6; --glacier:#a9d8ec; --meadow:#9db06a; --orchard:#e0765a; --paddy:#5cb87f;
+    --forest:#4a9760; --urban:#c99a5a; --water:#5fa8e6; --warn:#e2574c;
+    --gold:#e0b354; --panel-shadow:0 16px 44px -22px rgba(0,0,0,.55);
+    --peak:#4a5468; --slope1:#2c3a2c; --slope2:#22301f; --floor:#232a20;
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif;
+    padding-inline:20px; padding-block:22px 48px; max-width:1480px; margin:0 auto;
+  }
+  h1,h2,h3{font-family:'Poppins',system-ui,sans-serif; margin:0; text-wrap:balance}
+  .mono{font-family:'JetBrains Mono',monospace}
+
+  header.top{display:flex; flex-wrap:wrap; gap:16px 28px; justify-content:space-between; align-items:flex-start; margin-bottom:12px}
+  .eyebrow{font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:7px}
+  h1{font-size:clamp(26px,4vw,38px); font-weight:800; color:var(--ink)}
+  .sub{color:var(--ink-dim); font-size:14.5px; margin-top:6px; max-width:60ch; line-height:1.5}
+
+  .brand-cluster{flex:0 0 auto; text-align:right; max-width:280px}
+  .brand-marks{display:flex; align-items:center; justify-content:flex-end; gap:10px}
+  .brand-mark{display:flex; align-items:center; gap:6px; font-family:'Poppins'; font-weight:800; font-size:12px; letter-spacing:.04em; color:var(--ink)}
+  .brand-div{width:1px; height:16px; background:var(--line)}
+  .brand-note{font-size:10.5px; color:var(--ink-dim); line-height:1.5; margin-top:8px; font-style:italic}
+
+  .method-line{font-size:12.5px; color:var(--ink-dim); line-height:1.6; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid var(--line)}
+  .method-line b{color:var(--ink); font-weight:700}
+  .method-line .marrow{color:var(--gold); margin:0 3px}
+
+  .scope-banner{display:flex; align-items:center; gap:12px; flex-wrap:wrap; background:var(--bg-elev); border:1.4px solid var(--gold); border-radius:10px; padding:10px 16px; margin-bottom:16px; font-size:13px}
+  .scope-banner .sb-tag{font-family:'Poppins'; font-weight:800; font-size:11px; letter-spacing:.05em; color:#fff; background:var(--gold); border-radius:5px; padding:3px 9px; flex:0 0 auto}
+  .scope-banner .sb-tag2{font-family:'Poppins'; font-weight:800; font-size:11px; letter-spacing:.05em; color:var(--ink-dim); background:transparent; border:1.4px solid var(--line); border-radius:5px; padding:2.5px 9px; flex:0 0 auto}
+  .scope-banner span.sb-text{color:var(--ink-dim); line-height:1.5}
+  .scope-banner b{color:var(--ink)}
+
+  .workspace{display:grid; grid-template-columns:1fr; gap:0}
+  @media (min-width:880px){ .workspace{grid-template-columns:minmax(460px,720px) 1fr; gap:30px} }
+  .sticky-col{align-self:start; position:sticky; top:12px}
+
+  .zoom-btn{
+    position:absolute; top:24px; right:24px; z-index:2; display:flex; align-items:center; gap:6px;
+    font-family:'Inter'; font-weight:700; font-size:11.5px; color:var(--ink);
+    background:color-mix(in srgb, var(--bg-elev) 88%, transparent); border:1px solid var(--line); border-radius:999px;
+    padding:7px 13px; cursor:pointer; backdrop-filter:blur(3px); box-shadow:var(--panel-shadow);
+  }
+  .zoom-btn:hover{border-color:var(--gold)}
+
+  .zoom-overlay{
+    position:fixed; inset:0; background:color-mix(in srgb, var(--ink) 78%, transparent); z-index:50;
+    display:flex; align-items:center; justify-content:center; padding:26px; backdrop-filter:blur(2px);
+  }
+  .zoom-overlay[hidden]{display:none}
+  .zoom-panel{background:var(--bg-elev); border-radius:18px; max-width:min(94vw,1400px); max-height:94vh; width:100%; padding:18px 18px 14px; overflow:auto; position:relative; box-shadow:0 30px 80px -20px rgba(0,0,0,.5)}
+  .zoom-panel svg{width:100%; height:auto; display:block; border-radius:8px}
+  .zoom-close{position:sticky; top:0; float:right; font-family:'Inter'; font-weight:700; font-size:13px; color:var(--ink); background:var(--bg-elev); border:1px solid var(--line); border-radius:999px; padding:7px 14px; cursor:pointer; margin-bottom:8px; z-index:2}
+  .zoom-close:hover{border-color:var(--gold)}
+
+  .controls{display:flex; flex-wrap:wrap; gap:7px; margin-bottom:14px}
+  .stage-btn{
+    font-family:'Inter'; font-weight:600; font-size:12px; letter-spacing:.01em; color:var(--ink-dim);
+    background:transparent; border:1px solid var(--line); border-radius:999px; padding:7px 13px; cursor:pointer;
+    display:flex; align-items:center; gap:7px; transition:all .2s ease;
+  }
+  .stage-btn .dot{width:8px; height:8px; border-radius:50%; background:var(--line); flex:none}
+  .stage-btn.active{color:var(--ink); border-color:currentColor; background:color-mix(in srgb, var(--ink) 6%, transparent)}
+  .stage-btn:focus-visible{outline:2px solid var(--river); outline-offset:2px}
+
+  .map-wrap{width:100%}
+  .map-card{background:var(--bg-elev); border:1px solid var(--line); border-radius:18px; box-shadow:var(--panel-shadow); padding:14px 14px 10px; position:relative; overflow:hidden}
+  .map-card svg{width:100%; height:auto; display:block; border-radius:8px}
+
+  .legend{display:flex; flex-wrap:wrap; gap:8px 14px; margin-top:10px; padding-top:10px; border-top:1px dashed var(--line)}
+  .legend-item{display:flex; align-items:center; gap:6px; font-size:11px; color:var(--ink-dim)}
+  .legend-swatch{width:10px; height:10px; border-radius:3px; flex:none}
+  .caption{font-size:10.5px; color:var(--ink-dim); margin-top:8px; font-style:italic}
+
+  .phase-toggle{display:flex; gap:6px; justify-content:center; margin:16px auto 4px; max-width:640px}
+  .phase-btn{
+    flex:1; font-family:'Poppins'; font-weight:700; font-size:13px; color:var(--ink-dim);
+    background:var(--bg-elev); border:1.5px solid var(--line); border-radius:12px; padding:11px 10px; cursor:pointer;
+    transition:all .18s ease; text-align:center;
+  }
+  .phase-btn .psub{display:block; font-family:'Inter'; font-weight:500; font-size:10px; margin-top:2px; opacity:.75}
+  .phase-btn.active{color:#fff; border-color:transparent}
+  .phase-btn.active.p-now{background:var(--ink)}
+  .phase-btn.active.p-plus5{background:var(--warn)}
+  .phase-btn.active.p-act{background:var(--forest)}
+  .phase-btn:focus-visible{outline:2px solid var(--river); outline-offset:2px}
+  .phase-hint{text-align:center; font-size:11px; color:var(--ink-dim); margin-bottom:4px}
+
+  .content{max-width:680px}
+  .stage-label{font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; font-weight:800; margin-bottom:8px}
+  .content h2{font-size:25px; margin-bottom:12px; line-height:1.2; letter-spacing:-.01em}
+  .content p.lead{color:var(--ink-dim); font-size:16.5px; line-height:1.72; margin-bottom:22px; max-width:62ch}
+  .content p.lead b{color:var(--ink)}
+
+  .hero2{margin-bottom:22px; padding:16px 20px; border-radius:14px; background:color-mix(in srgb, var(--hc, var(--gold)) 9%, var(--bg-elev)); border:1px solid color-mix(in srgb, var(--hc, var(--gold)) 24%, var(--line))}
+  .hero2 .hnum{font-family:'Poppins'; font-weight:800; font-size:clamp(26px,4vw,38px); line-height:1.1; letter-spacing:-.01em}
+  .hero2 .hlbl{font-size:14.5px; color:var(--ink-dim); margin-top:7px; max-width:56ch; line-height:1.6}
+
+  .stat-list{display:grid; grid-template-columns:1fr 1fr; gap:2px 28px; margin-bottom:8px}
+  @media (max-width:560px){ .stat-list{grid-template-columns:1fr} }
+  .stat-row{padding:14px 0 14px 14px; border-bottom:1px solid var(--line); border-left:2.5px solid var(--line); position:relative}
+  .stat-row .num{font-family:'Poppins'; font-weight:700; font-size:17.5px; line-height:1.25}
+  .stat-row .lbl{font-size:13.5px; color:var(--ink-dim); margin-top:4px; line-height:1.55}
+  .stat-row.wide{grid-column:1/-1}
+  .stat-row.flag{border-left-color:var(--warn)}
+  .stat-row.flag .num{color:var(--warn)}
+  .stat-row.good{border-left-color:var(--forest)}
+  .stat-row.good .num{color:var(--forest)}
+  .stat-row.gain{border-left-color:var(--gold)}
+  .stat-row.gain .num{color:var(--gold)}
+  .stat-row.gain .lbl{color:var(--ink)}
+
+  .modeled-tag{display:inline-block; font-size:8px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--ink-dim); opacity:0.75; border:none; background:color-mix(in srgb, var(--warn) 14%, transparent); border-radius:4px; padding:0 4px; margin-left:5px; vertical-align:middle; line-height:1.5}
+
+  .dist-head{font-family:'Poppins'; font-weight:800; font-size:12.5px; letter-spacing:.06em; color:var(--gold); text-transform:uppercase; margin:20px 0 10px; line-height:1.5}
+  .dist-table{width:100%; border-collapse:collapse; font-size:12px; margin-bottom:14px; border-radius:10px; overflow:hidden}
+  .dist-table th{text-align:left; font-family:'Inter'; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-dim); padding:7px 10px 7px 0; border-bottom:1.4px solid var(--line)}
+  .dist-table td{padding:7px 10px 7px 0; border-bottom:1px solid var(--line); color:var(--ink-dim)}
+  .dist-table tr:nth-child(even) td{background:color-mix(in srgb, var(--ink) 3%, transparent)}
+  .dist-table td.dn{font-family:'Poppins'; font-weight:700; color:var(--ink)}
+  .dist-table td.num{font-family:'JetBrains Mono',monospace; color:var(--ink)}
+  .dist-table tr:last-child td{font-weight:700; color:var(--ink); border-bottom:none; background:color-mix(in srgb, var(--gold) 8%, transparent)}
+
+  .cascade-row{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:22px 0 8px}
+  @media (max-width:560px){ .cascade-row{grid-template-columns:1fr 1fr} }
+  .cascade-chip{border-top:2.5px solid var(--gold); padding:10px 11px; background:color-mix(in srgb, var(--gold) 6%, var(--bg-elev)); border-radius:0 0 10px 10px}
+  .cascade-chip .cphase{font-size:9.5px; font-weight:800; letter-spacing:.07em; text-transform:uppercase; color:var(--gold)}
+  .cascade-chip .ctext{font-size:11.5px; color:var(--ink); line-height:1.45; margin-top:5px}
+  .cascade-label{font-size:11px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-dim); margin-top:20px}
+
+  .source-list{display:flex; flex-direction:column; gap:0; margin-top:4px}
+  .source-item{padding:12px 0; border-bottom:1px solid var(--line); font-size:13px; line-height:1.5}
+  .source-item:first-child{padding-top:0}
+  .source-item a{color:var(--river); font-weight:600; text-decoration:none}
+  .source-item a:hover{text-decoration:underline}
+  .source-item .stag{display:inline-block; font-size:9px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-dim); background:color-mix(in srgb, var(--ink) 6%, transparent); border-radius:999px; padding:1px 7px; margin-right:7px}
+
+  .place-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
+  .place-chip{font-size:11.5px; font-weight:600; padding:6px 13px; border-radius:999px; border:1px solid var(--line); color:var(--ink); background:var(--bg-elev)}
+
+  .divider{height:1px; background:var(--line); margin:18px 0}
+  .footnote{font-size:11.5px; color:var(--ink-dim); line-height:1.6}
+  .footnote strong{color:var(--ink)}
+
+  .epi-list{margin:12px 0 0; padding-left:18px; font-size:12.5px; color:var(--ink-dim); line-height:1.7}
+  .epi-list li{margin-bottom:4px}
+  .epi-list b{color:var(--ink)}
+
+  .flow-path{stroke-dasharray:6 5; animation:flow 1.4s linear infinite}
+  @keyframes flow{to{stroke-dashoffset:-22}}
+  @media (prefers-reduced-motion: reduce){ .flow-path{animation:none} }
+
+  .patch{transition:opacity .55s ease, transform .55s ease}
+  .glow{filter:drop-shadow(0 0 5px currentColor)}
+</style>
+
+<header class="top">
+  <div>
+    <div class="eyebrow">Burak Sciences &times; Wonderbox</div>
+    <h1>Kashmir Watershed</h1>
+  </div>
+  <div class="brand-cluster">
+    <div class="brand-marks">
+      <span class="brand-mark">
+        <svg width="34" height="14" viewBox="0 0 34 14"><line x1="1" y1="7" x2="33" y2="7" stroke="var(--gold)" stroke-width="1.4"/><circle cx="1" cy="7" r="2.6" fill="var(--gold)"/><circle cx="12" cy="7" r="2.6" fill="var(--gold)"/><circle cx="23" cy="7" r="2.6" fill="var(--gold)"/><circle cx="33" cy="7" r="2.6" fill="var(--gold)"/></svg>
+        BURAK SCIENCES
+      </span>
+      <span class="brand-div"></span>
+      <span class="brand-mark">
+        <svg width="12" height="14" viewBox="0 0 12 14"><path d="M6,0 C6,0 12,7.5 12,9.8 C12,12.7 9.3,14 6,14 C2.7,14 0,12.7 0,9.8 C0,7.5 6,0 6,0 Z" fill="var(--river)"/></svg>
+        WONDERBOX
+      </span>
+    </div>
+    <p class="brand-note">Modeled on Burak Sciences' Cascade &rarr; Pattern &rarr; Compounding &rarr; Velocity method &mdash; the same approach behind our ovine and human health biomarkers. A representation built from available data, not a certified forecast.</p>
+  </div>
+</header>
+
+<div class="scope-banner">
+  <span class="sb-tag">PHASE ONE &middot; LIVE</span>
+  <span class="sb-text"><b>Kashmir division</b> is what this map covers today &mdash; every river, meadow, lake and district on it.</span>
+  <span class="sb-tag2">PHASE TWO &middot; NEXT</span>
+  <span class="sb-text"><b>Jammu, Pir Panjal &amp; Ladakh</b> are not modeled yet. They&rsquo;re where this goes next, once the same data-gathering happens for them.</span>
+</div>
+
+<p class="method-line">
+  <b>Categorization</b> tags every river, meadow, orchard, forest, town and plant as a sourced data point.<span class="marrow">&rarr;</span>
+  <b>Pattern</b> finds where loss, growth and demand line up.<span class="marrow">&rarr;</span>
+  <b>Compounding</b> tracks how each year's change feeds the next.<span class="marrow">&rarr;</span>
+  <b>Velocity</b> measures the rate now, against the baseline &mdash; that's what tells you five years out.
+</p>
+
+<div class="workspace">
+<div class="sticky-col">
+<div class="controls" id="controls"></div>
+
+<div class="map-wrap">
+  <div class="map-card">
+    <button class="zoom-btn" id="zoomBtn" type="button">&#9974; View full size</button>
+    <svg viewBox="0 0 860 900" xmlns="http://www.w3.org/2000/svg" id="mapSvg" role="img" aria-label="Stylized relief map of the Kashmir valley, oriented southeast to northwest along the Jhelum river">
+      <defs>
+        <marker id="arrowOut" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 Z" fill="var(--meadow)"/>
+        </marker>
+        <marker id="arrowBack" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 Z" fill="var(--gold)"/>
+        </marker>
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="var(--bg-elev)"/>
+          <stop offset="100%" stop-color="var(--bg)"/>
+        </linearGradient>
+        <linearGradient id="floorGrad" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0%" stop-color="var(--floor)" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="var(--floor)" stop-opacity="0.55"/>
+        </linearGradient>
+        <filter id="soften" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="7"/>
+        </filter>
+        <pattern id="forestTex" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(0)">
+          <rect width="12" height="12" fill="var(--forest)" opacity="0.15"/>
+          <path d="M6,2 L9,8 L3,8 Z" fill="var(--forest)" opacity="0.6"/>
+        </pattern>
+        <pattern id="meadowTex" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(15)">
+          <rect width="9" height="9" fill="var(--meadow)" opacity="0.16"/>
+          <circle cx="2" cy="2" r="1" fill="var(--meadow)" opacity="0.55"/>
+        </pattern>
+        <pattern id="orchardTex" width="11" height="11" patternUnits="userSpaceOnUse">
+          <rect width="11" height="11" fill="var(--orchard)" opacity="0.15"/>
+          <circle cx="3" cy="3" r="1.6" fill="var(--orchard)" opacity="0.6"/>
+          <circle cx="8" cy="8" r="1.6" fill="var(--orchard)" opacity="0.6"/>
+        </pattern>
+        <pattern id="paddyTex" width="10" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(4)">
+          <rect width="10" height="6" fill="var(--paddy)" opacity="0.16"/>
+          <line x1="0" y1="3" x2="10" y2="3" stroke="var(--paddy)" stroke-width="1.1" opacity="0.55"/>
+        </pattern>
+        <pattern id="urbanTex" width="8" height="8" patternUnits="userSpaceOnUse">
+          <rect width="8" height="8" fill="var(--urban)" opacity="0.2"/>
+          <rect x="1" y="1" width="2.4" height="2.4" fill="var(--urban)" opacity="0.7"/>
+          <rect x="5" y="5" width="2.4" height="2.4" fill="var(--urban)" opacity="0.7"/>
+        </pattern>
+        <pattern id="clearedTex" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <rect width="10" height="10" fill="var(--warn)" opacity="0.12"/>
+          <line x1="0" y1="0" x2="0" y2="10" stroke="var(--warn)" stroke-width="1.4" opacity="0.6"/>
+        </pattern>
+      </defs>
+
+      <rect width="860" height="900" fill="url(#skyGrad)"/>
+
+      <g filter="url(#soften)">
+        <path d="M 60,760 C 140,700 120,560 220,500 C 300,450 260,340 360,280 C 440,230 400,140 520,90 C 600,55 640,20 720,10
+                 L 830,60 C 760,120 760,220 680,280 C 610,330 640,430 550,490 C 470,540 500,640 400,700
+                 C 310,750 320,830 200,860 L 60,820 Z"
+              fill="var(--slope1)" opacity="0.9"/>
+        <path d="M 40,700 C 100,630 90,520 170,460 C 240,410 210,320 300,260 C 370,215 340,140 440,95
+                 C 500,68 540,30 610,8 L 660,22 C 590,70 590,150 520,200 C 460,245 480,330 400,380
+                 C 330,425 350,510 270,560 C 200,605 210,680 110,720 Z"
+              fill="var(--slope2)" opacity="0.75"/>
+      </g>
+
+      <g fill="var(--peak)" opacity="0.9">
+        <path d="M560,40 L600,10 L640,50 L610,48 L580,70 Z"/>
+        <path d="M660,20 L695,-4 L730,28 L700,30 L672,48 Z"/>
+        <path d="M420,110 L452,84 L484,118 L458,118 L432,136 Z"/>
+      </g>
+
+      <path d="M 90,730 C 160,670 150,540 240,480 C 310,435 280,340 370,285 C 445,240 415,150 530,100
+               C 600,70 635,35 705,18 L 745,45 C 685,90 680,175 610,225 C 550,268 570,355 495,405
+               C 425,450 445,530 370,580 C 300,625 310,700 210,735 Z"
+            fill="url(#forestTex)" opacity="0.55" id="forestBelt"/>
+
+      <path id="valleyFloor" d="M 700,830 C 640,790 650,720 590,670 C 530,620 550,540 480,490
+               C 420,445 440,370 370,325 C 300,280 320,210 250,175
+               C 200,150 175,130 150,105 L 115,140 C 145,165 165,195 205,225
+               C 260,265 240,340 305,390 C 360,435 340,505 405,555
+               C 465,600 445,675 505,725 C 555,765 545,825 605,860 Z"
+            fill="url(#floorGrad)" stroke="var(--line)" stroke-width="1.5"/>
+
+      <g transform="translate(770,790)" font-family="Inter">
+        <circle r="26" fill="var(--bg-elev)" stroke="var(--line)"/>
+        <path d="M0,-18 L6,4 L0,-2 L-6,4 Z" fill="var(--ink)"/>
+        <text y="-24" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink)">N</text>
+      </g>
+      <g transform="translate(660,860)" font-family="Inter" font-size="10.5" fill="var(--ink-dim)">
+        <line x1="0" y1="0" x2="60" y2="0" stroke="var(--ink-dim)" stroke-width="1.5"/>
+        <line x1="0" y1="-3" x2="0" y2="3" stroke="var(--ink-dim)" stroke-width="1.5"/>
+        <line x1="60" y1="-3" x2="60" y2="3" stroke="var(--ink-dim)" stroke-width="1.5"/>
+        <text x="30" y="-6" text-anchor="middle">&asymp; 65 km (schematic)</text>
+      </g>
+
+      <text x="120" y="440" font-family="Inter" font-size="12" font-weight="700" fill="var(--ink-dim)" opacity="0.7" transform="rotate(-52 120 440)">PIR PANJAL RANGE</text>
+      <text x="640" y="330" font-family="Inter" font-size="12" font-weight="700" fill="var(--ink-dim)" opacity="0.7" transform="rotate(-52 640 330)">GREAT HIMALAYAS / ZANSKAR</text>
+
+      <g id="glaciers">
+        <g transform="translate(612,32)">
+          <path d="M0,0 L24,4 L13,24 L-9,18 Z" fill="var(--glacier)" opacity="0.95" class="glow"/>
+          <path d="M0,0 L24,4 L13,13 L-3,9 Z" fill="#ffffff" opacity="0.6"/>
+          <text x="30" y="6" font-family="Inter" font-weight="700" font-size="12" fill="var(--ink)">Kolahoi Glacier</text>
+          <text x="30" y="18" font-family="Inter" font-size="10.5" fill="var(--ink-dim)">source of the Lidder</text>
+        </g>
+        <g transform="translate(462,88)">
+          <path d="M0,0 L20,3 L11,20 L-7,15 Z" fill="var(--glacier)" opacity="0.95" class="glow"/>
+          <path d="M0,0 L20,3 L11,11 L-2,8 Z" fill="#ffffff" opacity="0.6"/>
+          <text x="-6" y="-6" font-family="Inter" font-weight="700" font-size="12" fill="var(--ink)" text-anchor="end">Thajiwas Glacier</text>
+          <text x="-6" y="5" font-family="Inter" font-size="10.5" fill="var(--ink-dim)" text-anchor="end">source of the Sind</text>
+        </g>
+      </g>
+
+      <g id="rivers" fill="none" stroke-linecap="round">
+        <path id="jhelum" d="M700,830 C650,780 660,700 610,650 C555,595 580,530 520,480
+              C460,430 480,360 420,315 C360,270 385,210 330,175 C270,140 250,120 190,100"
+              stroke="var(--river)" stroke-width="7" opacity="0.9"/>
+        <path d="M700,830 C650,780 660,700 610,650 C555,595 580,530 520,480
+              C460,430 480,360 420,315 C360,270 385,210 330,175 C270,140 250,120 190,100"
+              stroke="#ffffff" stroke-width="2.2" opacity="0.5" class="flow-path"/>
+
+        <path class="trib" d="M600,45 C590,90 560,120 505,150" stroke="var(--river)" stroke-width="4" opacity="0.75"/>
+        <path class="trib" d="M455,100 C420,150 400,210 425,270" stroke="var(--river)" stroke-width="4" opacity="0.75"/>
+        <path class="trib" d="M590,600 C540,610 490,600 460,560" stroke="var(--river)" stroke-width="3.3" opacity="0.7"/>
+        <path class="trib" d="M600,660 C550,660 510,640 490,600" stroke="var(--river)" stroke-width="2.9" opacity="0.65"/>
+        <path class="trib" d="M300,340 C340,360 380,380 410,410" stroke="var(--river)" stroke-width="3.3" opacity="0.7"/>
+        <path class="trib" d="M260,260 C300,280 330,300 355,330" stroke="var(--river)" stroke-width="2.9" opacity="0.65"/>
+        <path class="trib" d="M430,470 C390,500 350,520 320,500" stroke="var(--river)" stroke-width="3.1" opacity="0.65"/>
+        <path class="trib" d="M340,190 C310,210 280,220 255,200" stroke="var(--river)" stroke-width="2.8" opacity="0.6"/>
+      </g>
+
+      <g id="waterBodies">
+        <ellipse id="wularToday" cx="175" cy="118" rx="34" ry="20" fill="var(--water)" opacity="0.55" transform="rotate(-35 175 118)"/>
+        <ellipse id="wularPlus5" cx="175" cy="118" rx="22" ry="12" fill="var(--water)" opacity="0.8" transform="rotate(-35 175 118)"/>
+        <text x="140" y="90" font-family="Inter" font-size="11" font-weight="700" fill="var(--ink)">Wular Lake</text>
+
+        <ellipse id="hokersarToday" cx="245" cy="185" rx="16" ry="10" fill="var(--water)" opacity="0.5" transform="rotate(-35 245 185)"/>
+        <ellipse id="hokersarPlus5" cx="245" cy="185" rx="10" ry="6" fill="var(--water)" opacity="0.8" transform="rotate(-35 245 185)"/>
+        <text x="252" y="205" font-family="Inter" font-size="10" fill="var(--ink-dim)">Hokersar wetland</text>
+
+        <ellipse id="dalToday" cx="522" cy="468" rx="13" ry="8" fill="var(--water)" opacity="0.55" transform="rotate(-35 522 468)"/>
+        <ellipse id="dalPlus5" cx="522" cy="468" rx="9" ry="5.5" fill="var(--water)" opacity="0.8" transform="rotate(-35 522 468)"/>
+        <text x="530" y="490" font-family="Inter" font-size="10" font-weight="700" fill="var(--ink)">Dal Lake</text>
+      </g>
+
+      <!-- Flood Spill Channel, Srinagar to Wular (1903, always visible) -->
+      <g id="floodChannel" fill="none">
+        <path d="M480,480 C400,440 300,340 250,260 C220,210 200,165 175,118"
+              stroke="var(--river)" stroke-width="2" stroke-dasharray="1 5" opacity="0.55"/>
+        <text x="300" y="330" font-family="Inter" font-size="8.5" font-weight="700" fill="var(--ink-dim)" opacity="0.75" transform="rotate(48 300 330)">Flood Spill Channel</text>
+      </g>
+
+      <!-- Srinagar Ring Road, always visible -->
+      <g id="ringRoad" fill="none">
+        <ellipse cx="480" cy="480" rx="66" ry="52" stroke="var(--urban)" stroke-width="2.4" stroke-dasharray="6 4" opacity="0.75" transform="rotate(-18 480 480)"/>
+        <text x="480" y="552" font-family="Inter" font-size="8.5" font-weight="700" fill="var(--urban)" opacity="0.8" text-anchor="middle">Ring Road</text>
+      </g>
+
+      <g id="towns" font-family="Inter" font-size="11" fill="var(--ink-dim)">
+        <g><circle cx="700" cy="830" r="3" fill="var(--gold)"/><text x="670" y="850" text-anchor="end">Verinag</text></g>
+        <g><circle cx="610" cy="650" r="3" fill="var(--ink)"/><text x="617" y="653">Anantnag</text></g>
+        <g><circle cx="560" cy="130" r="2.6" fill="var(--ink-dim)"/><text x="530" y="120" text-anchor="end">Pahalgam</text></g>
+        <g><circle cx="450" cy="230" r="2.6" fill="var(--ink-dim)"/><text x="420" y="220" text-anchor="end">Sonamarg</text></g>
+        <g><circle cx="480" cy="480" r="3.6" fill="var(--gold)"/><text x="490" y="475" font-weight="700" fill="var(--ink)" font-size="12.5">Srinagar</text></g>
+        <g><circle cx="460" cy="560" r="2.6" fill="var(--ink-dim)"/><text x="440" y="575" text-anchor="end">Kulgam</text></g>
+        <g><circle cx="330" cy="500" r="2.6" fill="var(--ink-dim)"/><text x="337" y="503">Shopian</text></g>
+        <g><circle cx="445" cy="430" r="2.8" fill="var(--ink)"/><text x="452" y="433">Pulwama</text></g>
+        <g><circle cx="410" cy="410" r="2.6" fill="var(--ink-dim)"/><text x="417" y="413">Budgam</text></g>
+        <g><circle cx="355" cy="330" r="2.6" fill="var(--ink-dim)"/><text x="330" y="320" text-anchor="end">Gulmarg</text></g>
+        <g><circle cx="250" cy="175" r="3.2" fill="var(--ink)"/><text x="257" y="178">Baramulla</text></g>
+        <g><circle cx="215" cy="140" r="2.6" fill="var(--ink-dim)"/><text x="222" y="143">Sopore</text></g>
+        <g><circle cx="140" cy="55" r="2.4" fill="var(--ink-dim)" opacity="0.85"/><text x="120" y="42" text-anchor="end">Gurez (north)</text></g>
+        <g><circle cx="200" cy="75" r="2.6" fill="var(--ink)"/><text x="207" y="78">Bandipora</text></g>
+        <g><circle cx="95" cy="105" r="2.6" fill="var(--ink)"/><text x="70" y="95" text-anchor="end">Kupwara</text></g>
+        <g><circle cx="392" cy="545" r="2.2" fill="var(--ink-dim)" opacity="0.85"/><text x="399" y="548" font-size="10">Tral</text></g>
+        <g><circle cx="512" cy="452" r="2.2" fill="var(--ink-dim)" opacity="0.85"/><text x="519" y="450" font-size="10">Dachigam</text></g>
+        <g><circle cx="655" cy="615" r="2.2" fill="var(--ink-dim)" opacity="0.85"/><text x="662" y="618" font-size="10">Kokernag</text></g>
+      </g>
+
+      <!-- REAL HYDROLOGICAL CONNECTIVITY: named glaciers -> named tributaries -> Jhelum mainstem -> named outlets -->
+      <g id="layer-river-connect" class="patch" fill="none" font-family="Inter">
+        <line x1="612" y1="32" x2="600" y2="45" stroke="var(--glacier)" stroke-width="3" opacity="0.95"/>
+        <line x1="462" y1="88" x2="455" y2="100" stroke="var(--glacier)" stroke-width="3" opacity="0.95"/>
+        <text x="565" y="80" font-size="9.5" font-weight="700" fill="var(--river)" transform="rotate(58 565 80)">Lidder River</text>
+        <text x="412" y="175" font-size="9.5" font-weight="700" fill="var(--river)" transform="rotate(62 412 175)">Sind River</text>
+        <text x="555" y="595" font-size="9" fill="var(--river)" opacity="0.85">Vishav</text>
+        <text x="565" y="650" font-size="9" fill="var(--river)" opacity="0.85">Rembiara</text>
+        <text x="350" y="368" font-size="9" fill="var(--river)" opacity="0.85">Doodhganga</text>
+        <text x="295" y="285" font-size="9" fill="var(--river)" opacity="0.85">Sukhnag Nallah</text>
+        <text x="365" y="490" font-size="9" fill="var(--river)" opacity="0.85">Romshi</text>
+        <text x="300" y="205" font-size="9" fill="var(--river)" opacity="0.85">Ningle Nallah</text>
+
+        <path d="M520,480 C512,470 510,460 508,452" stroke="var(--water)" stroke-width="1.6" stroke-dasharray="1 4" opacity="0.85"/>
+        <path d="M420,315 C415,300 412,292 410,288" stroke="var(--water)" stroke-width="1.6" stroke-dasharray="1 4" opacity="0.85"/>
+        <path d="M420,315 C428,300 432,282 435,268" stroke="var(--water)" stroke-width="1.6" stroke-dasharray="1 4" opacity="0.85"/>
+        <path d="M480,480 C440,485 400,489 372,493" stroke="var(--water)" stroke-width="1.6" stroke-dasharray="1 4" opacity="0.75"/>
+        <text x="500" y="440" font-size="8.5" font-weight="700" fill="var(--water)" text-anchor="middle">Jhelum &rarr; Harvan intake</text>
+        <text x="440" y="298" font-size="8.5" font-weight="700" fill="var(--water)" text-anchor="middle">&rarr; Rangil / Alusteng intake</text>
+        <text x="430" y="500" font-size="8.5" font-weight="700" fill="var(--water)" text-anchor="middle">&rarr; Sukhnag intake (Dudhganga-fed)</text>
+
+        <g transform="translate(197,113)">
+          <path d="M0,0 L8,-3 L6,4 L-2,6 Z" fill="var(--river)" opacity="0.9"/>
+          <text x="10" y="4" font-size="9" font-weight="700" fill="var(--river)">Jhelum &rarr; Wular Lake (outlet)</text>
+        </g>
+        <g transform="translate(680,808) rotate(48)"><path d="M0,-6 L5,0 L0,6 L-3,0 Z" fill="var(--river)" opacity="0.85"/></g>
+        <g transform="translate(565,562) rotate(35)"><path d="M0,-6 L5,0 L0,6 L-3,0 Z" fill="var(--river)" opacity="0.85"/></g>
+        <g transform="translate(390,265) rotate(38)"><path d="M0,-6 L5,0 L0,6 L-3,0 Z" fill="var(--river)" opacity="0.85"/></g>
+      </g>
+
+      <!-- RIVERS: plus5 stress overlay + act monitoring -->
+      <g id="layer-river-plus5" class="patch" fill="none">
+        <path d="M612,32 C600,70 570,100 505,150" stroke="var(--warn)" stroke-width="6" opacity="0.5" stroke-linecap="round" stroke-dasharray="1 8"/>
+        <path d="M462,88 C430,140 410,200 425,270" stroke="var(--warn)" stroke-width="6" opacity="0.5" stroke-linecap="round" stroke-dasharray="1 8"/>
+        <g transform="translate(612,32)"><path d="M0,0 L24,4 L13,24 L-9,18 Z" fill="var(--warn)" opacity="0.3"/></g>
+        <g transform="translate(462,88)"><path d="M0,0 L20,3 L11,20 L-7,15 Z" fill="var(--warn)" opacity="0.3"/></g>
+        <path d="M700,830 C650,780 660,700 610,650 C555,595 580,530 520,480
+              C460,430 480,360 420,315 C360,270 385,210 330,175 C270,140 250,120 190,100"
+              stroke="var(--warn)" stroke-width="3" opacity="0.55" stroke-dasharray="2 6" stroke-linecap="round"/>
+        <text x="560" y="600" font-family="Inter" font-size="10.5" font-weight="700" fill="var(--warn)" transform="rotate(-40 560 600)">flow already measured below zero in low-snow years</text>
+      </g>
+      <g id="layer-river-act" class="patch" fill="none">
+        <g transform="translate(612,60)"><circle r="7" fill="none" stroke="var(--forest)" stroke-width="2"/><circle r="2.6" fill="var(--forest)"/><text x="11" y="4" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--forest)">gauge (proposed)</text></g>
+        <g transform="translate(462,115)"><circle r="7" fill="none" stroke="var(--forest)" stroke-width="2"/><circle r="2.6" fill="var(--forest)"/><text x="11" y="4" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--forest)">gauge (proposed)</text></g>
+        <g transform="translate(480,480)"><circle r="7" fill="none" stroke="var(--forest)" stroke-width="2"/><circle r="2.6" fill="var(--forest)"/><text x="-11" y="4" text-anchor="end" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--forest)">storage buffer (proposed)</text></g>
+      </g>
+
+      <!-- SHEEP / GRAZING + MIGRATION -->
+      <g id="layer-sheep" class="patch">
+        <ellipse cx="555" cy="115" rx="42" ry="26" fill="url(#meadowTex)" stroke="var(--meadow)" stroke-width="1" stroke-dasharray="3 3" transform="rotate(-40 555 115)"/>
+        <ellipse cx="440" cy="215" rx="38" ry="24" fill="url(#meadowTex)" stroke="var(--meadow)" stroke-width="1" stroke-dasharray="3 3" transform="rotate(-30 440 215)"/>
+        <ellipse cx="330" cy="325" rx="40" ry="24" fill="url(#meadowTex)" stroke="var(--meadow)" stroke-width="1" stroke-dasharray="3 3" transform="rotate(-40 330 325)"/>
+        <ellipse cx="150" cy="70" rx="38" ry="22" fill="url(#meadowTex)" stroke="var(--meadow)" stroke-width="1" stroke-dasharray="3 3" transform="rotate(-30 150 70)"/>
+        <ellipse cx="392" cy="545" rx="18" ry="12" fill="url(#meadowTex)" stroke="var(--meadow)" stroke-width="1" stroke-dasharray="2 2" transform="rotate(-40 392 545)"/>
+        <ellipse cx="512" cy="452" rx="16" ry="11" fill="url(#meadowTex)" stroke="var(--meadow)" stroke-width="1" stroke-dasharray="2 2" transform="rotate(-40 512 452)"/>
+        <ellipse cx="655" cy="615" rx="17" ry="11" fill="url(#meadowTex)" stroke="var(--meadow)" stroke-width="1" stroke-dasharray="2 2" transform="rotate(-40 655 615)"/>
+      </g>
+      <g id="layer-sheep-plus5" class="patch">
+        <ellipse cx="392" cy="545" rx="11" ry="7" fill="url(#clearedTex)" stroke="var(--warn)" stroke-width="1.4" stroke-dasharray="2 3" transform="rotate(-40 392 545)"/>
+        <ellipse cx="512" cy="452" rx="10" ry="6.5" fill="url(#clearedTex)" stroke="var(--warn)" stroke-width="1.4" stroke-dasharray="2 3" transform="rotate(-40 512 452)"/>
+        <ellipse cx="655" cy="615" rx="10" ry="6.5" fill="url(#clearedTex)" stroke="var(--warn)" stroke-width="1.4" stroke-dasharray="2 3" transform="rotate(-40 655 615)"/>
+        <text x="399" y="530" font-family="Inter" font-size="9" font-weight="700" fill="var(--warn)">margin lost to Pulwama orchard edge</text>
+        <text x="519" y="435" font-family="Inter" font-size="9" font-weight="700" fill="var(--warn)">margin lost to Srinagar sprawl edge</text>
+        <text x="662" y="632" font-family="Inter" font-size="9" font-weight="700" fill="var(--warn)">margin lost to Anantnag orchard edge</text>
+      </g>
+      <g id="layer-sheep-act" class="patch" fill="none">
+        <path d="M18,655 C90,590 250,540 335,505 C420,470 480,380 550,120 M330,505 C270,480 190,410 148,72 M335,505 C400,540 430,555 390,548 M513,455 C500,500 505,540 512,455 M610,650 C640,625 650,620 655,615"
+              stroke="var(--forest)" stroke-width="10" opacity="0.16"/>
+        <text x="230" y="400" font-family="Inter" font-size="10.5" font-weight="700" fill="var(--forest)" transform="rotate(-45 230 400)">FRA 2006 corridor — legally recognized, 2020&rarr;</text>
+      </g>
+      <g id="layer-migration" class="patch" fill="none">
+        <!-- OUTBOUND: May, up from the Jammu-side base (off-map, Phase 2) through the pass to the main summer pastures -->
+        <path d="M12,663 C46,634 72,603 93,568" stroke="var(--meadow)" stroke-width="2.6" stroke-dasharray="1 6" stroke-linecap="round" opacity="0.95" marker-end="url(#arrowOut)"/>
+        <g transform="translate(95,560)">
+          <circle r="5.5" fill="var(--bg-elev)" stroke="var(--meadow)" stroke-width="2"/>
+          <text x="9" y="-6" font-family="Inter" font-weight="700" font-size="10.5" fill="var(--ink)">Pir Panjal Pass (Peer Ki Gali)</text>
+          <text x="9" y="5" font-family="Inter" font-size="10" fill="var(--ink-dim)">3,490 m &mdash; the historical low-point crossing</text>
+        </g>
+        <text x="8" y="682" font-family="Inter" font-size="10" font-weight="600" fill="var(--ink-dim)">Rajouri, Kalakote, Poonch &amp; Sunderbani</text>
+        <text x="8" y="694" font-family="Inter" font-size="9.5" fill="var(--ink-dim)">(winter base, Jammu division &mdash; Phase Two)</text>
+        <path d="M93,555 C155,532 245,524 322,496" stroke="var(--meadow)" stroke-width="2.1" stroke-dasharray="1 6" opacity="0.9" marker-end="url(#arrowOut)"/>
+        <path d="M322,496 C395,428 478,338 550,118" stroke="var(--meadow)" stroke-width="2" stroke-dasharray="1 6" opacity="0.9" marker-end="url(#arrowOut)"/>
+        <text x="360" y="300" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--meadow)" transform="rotate(-62 360 300)">May &rarr; upward, to Sonamarg &amp; the high meadows</text>
+
+        <!-- RETURN: Sept&ndash;Oct, same corridor, offset and reversed, closing the loop -->
+        <path d="M560,122 C488,344 404,436 330,504" stroke="var(--gold)" stroke-width="1.8" stroke-dasharray="4 4" opacity="0.85" marker-end="url(#arrowBack)"/>
+        <path d="M330,504 C252,532 162,540 100,563" stroke="var(--gold)" stroke-width="1.9" stroke-dasharray="4 4" opacity="0.85" marker-end="url(#arrowBack)"/>
+        <path d="M100,563 C78,596 54,628 20,656" stroke="var(--gold)" stroke-width="2.3" stroke-dasharray="4 4" stroke-linecap="round" opacity="0.9" marker-end="url(#arrowBack)"/>
+        <text x="405" y="270" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--gold)" transform="rotate(-62 405 270)">Sept&ndash;Oct &larr; return, ~7.4 lakh sheep &amp; goats</text>
+        <text x="120" y="618" font-family="Inter" font-size="9" font-weight="700" fill="var(--gold)">closed loop, every year</text>
+
+        <!-- minor grounds, same fan pattern, shorter branches -->
+        <path d="M322,496 C347,521 373,533 392,545" stroke="var(--meadow)" stroke-width="1.5" stroke-dasharray="1 5" opacity="0.7"/>
+        <path d="M478,338 C462,380 452,410 440,215" stroke="var(--meadow)" stroke-width="1.3" stroke-dasharray="1 5" opacity="0.65"/>
+        <path d="M322,496 C255,468 198,398 150,70" stroke="var(--meadow)" stroke-width="1.5" stroke-dasharray="1 6" opacity="0.7"/>
+        <path d="M478,398 C498,418 506,434 512,452" stroke="var(--meadow)" stroke-width="1.3" stroke-dasharray="1 5" opacity="0.65"/>
+        <path d="M608,648 C628,634 644,624 655,615" stroke="var(--meadow)" stroke-width="1.3" stroke-dasharray="1 5" opacity="0.65"/>
+      </g>
+
+      <!-- ORCHARD / PADDY -->
+      <g id="layer-orchard" class="patch">
+        <ellipse cx="255" cy="150" rx="40" ry="24" fill="url(#orchardTex)" stroke="var(--orchard)" stroke-width="1" transform="rotate(-40 255 150)"/>
+        <ellipse cx="215" cy="145" rx="34" ry="20" fill="url(#orchardTex)" stroke="var(--orchard)" stroke-width="1" transform="rotate(-30 215 145)" opacity="0.9"/>
+        <ellipse cx="335" cy="500" rx="42" ry="24" fill="url(#orchardTex)" stroke="var(--orchard)" stroke-width="1" transform="rotate(-30 335 500)"/>
+        <ellipse cx="600" cy="650" rx="38" ry="22" fill="url(#orchardTex)" stroke="var(--orchard)" stroke-width="1" transform="rotate(-40 600 650)"/>
+      </g>
+      <g id="layer-orchard-plus5" class="patch">
+        <ellipse cx="335" cy="500" rx="58" ry="32" fill="url(#orchardTex)" stroke="var(--warn)" stroke-width="1.4" stroke-dasharray="2 3" transform="rotate(-30 335 500)" opacity="0.9"/>
+        <text x="300" y="465" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--warn)" transform="rotate(-30 300 465)">Shopian/Pulwama orchard spreading onto paddy</text>
+      </g>
+      <g id="layer-paddy" class="patch">
+        <ellipse cx="470" cy="440" rx="46" ry="28" fill="url(#paddyTex)" stroke="var(--paddy)" stroke-width="1" transform="rotate(-40 470 440)"/>
+        <ellipse cx="410" cy="390" rx="42" ry="24" fill="url(#paddyTex)" stroke="var(--paddy)" stroke-width="1" transform="rotate(-40 410 390)"/>
+        <ellipse cx="540" cy="560" rx="44" ry="26" fill="url(#paddyTex)" stroke="var(--paddy)" stroke-width="1" transform="rotate(-40 540 560)"/>
+        <ellipse cx="330" cy="270" rx="40" ry="24" fill="url(#paddyTex)" stroke="var(--paddy)" stroke-width="1" transform="rotate(-40 330 270)"/>
+      </g>
+      <g id="layer-paddy-plus5" class="patch">
+        <ellipse cx="470" cy="440" rx="30" ry="18" fill="url(#clearedTex)" stroke="var(--warn)" stroke-width="1.2" stroke-dasharray="2 3" transform="rotate(-40 470 440)"/>
+        <ellipse cx="410" cy="390" rx="27" ry="16" fill="url(#clearedTex)" stroke="var(--warn)" stroke-width="1.2" stroke-dasharray="2 3" transform="rotate(-40 410 390)"/>
+        <ellipse cx="540" cy="560" rx="28" ry="17" fill="url(#clearedTex)" stroke="var(--warn)" stroke-width="1.2" stroke-dasharray="2 3" transform="rotate(-40 540 560)"/>
+        <ellipse cx="330" cy="270" rx="26" ry="15" fill="url(#clearedTex)" stroke="var(--warn)" stroke-width="1.2" stroke-dasharray="2 3" transform="rotate(-40 330 270)"/>
+      </g>
+      <g id="layer-agri-act" class="patch" fill="none">
+        <g transform="translate(470,440)"><circle r="9" fill="none" stroke="var(--forest)" stroke-width="2"/><text x="13" y="4" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--forest)">protected paddy buffer</text></g>
+        <g transform="translate(335,500)"><circle r="9" fill="none" stroke="var(--forest)" stroke-width="2"/><text x="-13" y="4" text-anchor="end" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--forest)">drip irrigation pilot</text></g>
+      </g>
+
+      <!-- IRRIGATION SCHEMES (peppered valley-wide, always on in the Agriculture stage) -->
+      <g id="layer-irrigation" class="patch" font-family="Inter">
+        <g transform="translate(250,175)"><path d="M0,-6 C4,-2 4,4 0,7 C-4,4 -4,-2 0,-6 Z" fill="var(--river)" opacity="0.8"/><text x="7" y="-9" font-size="9" font-weight="700" fill="var(--ink)">Babul / Zainageer / Rafiabad HL</text></g>
+        <g transform="translate(382,435)"><path d="M0,-6 C4,-2 4,4 0,7 C-4,4 -4,-2 0,-6 Z" fill="var(--river)" opacity="0.8"/><text x="-8" y="14" text-anchor="end" font-size="9" font-weight="700" fill="var(--ink)">Ahaji Canal</text></g>
+        <g transform="translate(452,232)"><path d="M0,-6 C4,-2 4,4 0,7 C-4,4 -4,-2 0,-6 Z" fill="var(--river)" opacity="0.8"/><text x="7" y="14" font-size="9" font-weight="700" fill="var(--ink)">Dab Canal (Ganderbal)</text></g>
+        <g transform="translate(378,558)"><path d="M0,-6 C4,-2 4,4 0,7 C-4,4 -4,-2 0,-6 Z" fill="var(--river)" opacity="0.8"/><text x="-8" y="14" text-anchor="end" font-size="9" font-weight="700" fill="var(--ink)">Tongri Canal</text></g>
+        <g transform="translate(400,558)"><circle r="4" fill="none" stroke="var(--river)" stroke-width="1.6"/><path d="M0,-4 L0,4 M-4,0 L4,0" stroke="var(--river)" stroke-width="1.3"/><text x="8" y="14" font-size="9" font-weight="700" fill="var(--ink)">Tral LIS (pump-lift)</text></g>
+        <g transform="translate(330,500)"><path d="M0,-6 C4,-2 4,4 0,7 C-4,4 -4,-2 0,-6 Z" fill="var(--river)" opacity="0.8"/><text x="-7" y="-11" text-anchor="end" font-size="9" font-weight="700" fill="var(--ink)">Saniguloo Canal</text></g>
+        <g transform="translate(460,560)"><path d="M0,-6 C4,-2 4,4 0,7 C-4,4 -4,-2 0,-6 Z" fill="var(--river)" opacity="0.8"/><text x="7" y="4" font-size="9" font-weight="700" fill="var(--ink)">Nandi / Grimtoo Canal</text></g>
+        <g transform="translate(610,650)"><path d="M0,-6 C4,-2 4,4 0,7 C-4,4 -4,-2 0,-6 Z" fill="var(--river)" opacity="0.8"/><text x="9" y="-9" font-size="9" font-weight="700" fill="var(--ink)">Dadi / Martand Canal</text></g>
+        <!-- Mega LIS (pump-lift) markers, distinct icon from gravity canals -->
+        <g transform="translate(400,508)"><circle r="4" fill="none" stroke="var(--river)" stroke-width="1.6"/><path d="M0,-4 L0,4 M-4,0 L4,0" stroke="var(--river)" stroke-width="1.3"/><text x="-8" y="14" text-anchor="end" font-size="9" font-weight="700" fill="var(--ink)">Rajpora &amp; Koil LIS (pump-lift)</text></g>
+        <g transform="translate(468,395)"><circle r="4" fill="none" stroke="var(--river)" stroke-width="1.6"/><path d="M0,-4 L0,4 M-4,0 L4,0" stroke="var(--river)" stroke-width="1.3"/><text x="8" y="-8" font-size="9" font-weight="700" fill="var(--ink)">Lethpora &amp; Marvel LIS (Pampore)</text></g>
+        <text x="20" y="850" font-size="9.5" font-weight="700" fill="var(--ink-dim)">16 of 21 named schemes shown, incl. 6 mega lift schemes (&#9678; pump-lift vs &#9660; gravity canal) &middot; capacity: not publicly published &mdash; help us fill this in</text>
+      </g>
+
+      <!-- FLOOD CHANNELS / FLOOD ZONES (district-level, always on with irrigation in the Agriculture stage) -->
+      <g id="layer-floodzones" class="patch" font-family="Inter">
+        <g transform="translate(650,608)"><rect x="-6" y="-6" width="12" height="12" fill="none" stroke="var(--river)" stroke-width="1.6" transform="rotate(45)"/><text x="10" y="-10" font-size="9" font-weight="700" fill="var(--river)">Sangam flood basin &mdash; non-karewa</text></g>
+        <g transform="translate(497,472)"><rect x="-6" y="-6" width="12" height="12" fill="none" stroke="var(--river)" stroke-width="1.6" transform="rotate(45)"/><text x="10" y="6" font-size="9" font-weight="700" fill="var(--river)">Ram Munshi Bagh &mdash; non-karewa</text></g>
+        <g transform="translate(175,118)"><rect x="-6" y="-6" width="12" height="12" fill="none" stroke="var(--river)" stroke-width="1.6" transform="rotate(45)"/><text x="10" y="18" font-size="9" font-weight="700" fill="var(--river)">Bandipora flood zone, at Wular &mdash; non-karewa</text></g>
+        <g transform="translate(220,90)"><rect x="-6" y="-6" width="12" height="12" fill="none" stroke="var(--river)" stroke-width="1.6" transform="rotate(45)"/><text x="10" y="-10" font-size="9" font-weight="700" fill="var(--river)">Pattan flood zone, Baramulla &mdash; non-karewa</text></g>
+        <text x="20" y="866" font-size="9.5" font-weight="700" fill="var(--ink-dim)">Flood zones sit on the low-lying, non-karewa valley floor by definition &mdash; karewa terraces sit above flood level</text>
+        <text x="20" y="880" font-size="9.5" font-weight="700" fill="var(--ink-dim)">Individual pump station locations and capacities: not publicly published &mdash; help us fill this in</text>
+      </g>
+
+      <!-- KAREWA UPLAND vs valley-floor (always on in the Agriculture stage) -->
+      <g id="layer-karewa" class="patch" fill="none">
+        <path d="M255,150 C300,175 340,230 335,270 M215,145 C260,200 300,260 330,325 M335,500 C370,470 400,420 410,390 M600,650 C580,600 560,560 540,560"
+              stroke="var(--orchard)" stroke-width="8" opacity="0.14" stroke-linecap="round"/>
+        <text x="230" y="330" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--orchard)" transform="rotate(-40 230 330)">karewa upland (rainfed, orchard/saffron)</text>
+        <text x="470" y="440" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--paddy)" transform="rotate(-40 470 440)">valley floor, non-karewa (canal-fed paddy)</text>
+        <text x="405" y="405" font-family="Inter" font-size="9" fill="var(--ink-dim)">Budgam: ~80% of cultivated land is karewa</text>
+      </g>
+
+      <!-- FOREST -->
+      <g id="layer-forest-today" class="patch">
+        <ellipse cx="600" cy="160" rx="46" ry="70" fill="url(#forestTex)" stroke="var(--forest)" stroke-width="1" transform="rotate(-40 600 160)"/>
+        <ellipse cx="290" cy="230" rx="42" ry="64" fill="url(#forestTex)" stroke="var(--forest)" stroke-width="1" transform="rotate(-40 290 230)"/>
+        <ellipse cx="560" cy="480" rx="38" ry="58" fill="url(#forestTex)" stroke="var(--forest)" stroke-width="1" transform="rotate(-40 560 480)"/>
+        <ellipse cx="230" cy="420" rx="36" ry="54" fill="url(#forestTex)" stroke="var(--forest)" stroke-width="1" transform="rotate(-40 230 420)"/>
+      </g>
+      <g id="layer-forest-plus5" class="patch">
+        <ellipse cx="600" cy="160" rx="46" ry="70" fill="url(#forestTex)" stroke="var(--forest)" stroke-width="1" transform="rotate(-40 600 160)" opacity="0.5"/>
+        <ellipse cx="600" cy="175" rx="46" ry="42" fill="url(#clearedTex)" stroke="var(--warn)" stroke-width="1" stroke-dasharray="2 3" transform="rotate(-40 600 175)"/>
+        <ellipse cx="290" cy="230" rx="42" ry="64" fill="url(#forestTex)" stroke="var(--forest)" stroke-width="1" transform="rotate(-40 290 230)" opacity="0.5"/>
+        <ellipse cx="290" cy="245" rx="42" ry="38" fill="url(#clearedTex)" stroke="var(--warn)" stroke-width="1" stroke-dasharray="2 3" transform="rotate(-40 290 245)"/>
+        <ellipse cx="560" cy="480" rx="38" ry="58" fill="url(#forestTex)" stroke="var(--forest)" stroke-width="1" transform="rotate(-40 560 480)" opacity="0.5"/>
+        <ellipse cx="560" cy="495" rx="38" ry="34" fill="url(#clearedTex)" stroke="var(--warn)" stroke-width="1" stroke-dasharray="2 3" transform="rotate(-40 560 495)"/>
+        <ellipse cx="230" cy="420" rx="36" ry="54" fill="url(#forestTex)" stroke="var(--forest)" stroke-width="1" transform="rotate(-40 230 420)" opacity="0.5"/>
+        <ellipse cx="230" cy="432" rx="36" ry="32" fill="url(#clearedTex)" stroke="var(--warn)" stroke-width="1" stroke-dasharray="2 3" transform="rotate(-40 230 432)"/>
+      </g>
+      <g id="layer-forest-act" class="patch" fill="none">
+        <g transform="translate(600,175)" stroke="var(--forest)" stroke-width="1.6"><path d="M0,6 L0,-6 M-5,0 L5,0" opacity="0"/><path d="M-4,4 L0,-6 L4,4 Z" fill="var(--forest)" opacity="0.85"/></g>
+        <g transform="translate(290,245)"><path d="M-4,4 L0,-6 L4,4 Z" fill="var(--forest)" opacity="0.85"/></g>
+        <g transform="translate(560,495)"><path d="M-4,4 L0,-6 L4,4 Z" fill="var(--forest)" opacity="0.85"/></g>
+        <g transform="translate(230,432)"><path d="M-4,4 L0,-6 L4,4 Z" fill="var(--forest)" opacity="0.85"/></g>
+        <text x="470" y="230" font-family="Inter" font-size="10" font-weight="700" fill="var(--forest)">compensatory afforestation — legally required per hectare cleared</text>
+      </g>
+
+      <!-- URBAN + WETLANDS -->
+      <g id="layer-urban-today" class="patch">
+        <ellipse cx="480" cy="480" rx="26" ry="18" fill="url(#urbanTex)" stroke="var(--urban)" stroke-width="1" transform="rotate(-40 480 480)"/>
+      </g>
+      <g id="layer-urban-plus5" class="patch">
+        <ellipse cx="480" cy="480" rx="26" ry="18" fill="url(#urbanTex)" stroke="var(--urban)" stroke-width="1" transform="rotate(-40 480 480)"/>
+        <ellipse cx="480" cy="480" rx="52" ry="36" fill="url(#urbanTex)" stroke="var(--warn)" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.85" transform="rotate(-40 480 480)"/>
+        <text x="500" y="440" font-family="Inter" font-size="10" font-weight="700" fill="var(--warn)" transform="rotate(-40 500 440)">projected sprawl</text>
+      </g>
+      <g id="layer-wetland-plus5" class="patch" fill="none">
+        <ellipse cx="175" cy="118" rx="17" ry="9" fill="var(--warn)" opacity="0.45" stroke="var(--warn)" stroke-width="1.6" stroke-dasharray="2 3" transform="rotate(-35 175 118)"/>
+        <text x="132" y="142" font-family="Inter" font-size="10" font-weight="700" fill="var(--warn)">Wular: already 45% smaller (1911&ndash;2007)</text>
+        <ellipse cx="245" cy="185" rx="8" ry="4.5" fill="var(--warn)" opacity="0.45" stroke="var(--warn)" stroke-width="1.3" stroke-dasharray="2 3" transform="rotate(-35 245 185)"/>
+        <text x="252" y="222" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--warn)">Hokersar: already 31% smaller (1969&ndash;2008)</text>
+      </g>
+      <g id="layer-urban-act" class="patch" fill="none">
+        <ellipse cx="175" cy="118" rx="20" ry="11" fill="none" stroke="var(--forest)" stroke-width="1.8" stroke-dasharray="1 4" opacity="0.9" transform="rotate(-35 175 118)"/>
+        <text x="128" y="142" font-family="Inter" font-size="10" font-weight="700" fill="var(--forest)">WUCMA: 5 km&#178; of Wular already reclaimed</text>
+        <text x="128" y="155" font-family="Inter" font-size="9.5" fill="var(--forest)">+2&ndash;3 km&#178; more planned</text>
+      </g>
+
+      <!-- DAL &amp; WULAR — dedicated two-lake stage -->
+      <g id="layer-dalwular-plus5" class="patch" fill="none">
+        <ellipse cx="522" cy="468" rx="17" ry="11" fill="var(--warn)" opacity="0.4" stroke="var(--warn)" stroke-width="1.6" stroke-dasharray="2 3" transform="rotate(-35 522 468)"/>
+        <text x="536" y="506" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--warn)">Dal: modeled ~10.8 km&#178; by 2031</text>
+        <ellipse cx="175" cy="118" rx="26" ry="15" fill="var(--warn)" opacity="0.4" stroke="var(--warn)" stroke-width="1.8" stroke-dasharray="2 3" transform="rotate(-35 175 118)"/>
+        <text x="132" y="95" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--warn)">Wular: modeled ~62 km&#178; by 2031</text>
+      </g>
+      <g id="layer-dalwular-act" class="patch" fill="none">
+        <ellipse cx="522" cy="468" rx="15" ry="9.5" fill="none" stroke="var(--forest)" stroke-width="1.8" stroke-dasharray="1 4" opacity="0.9" transform="rotate(-35 522 468)"/>
+        <text x="536" y="518" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--forest)">LCMA: Dal desilting &amp; sewage interception underway</text>
+        <ellipse cx="175" cy="118" rx="23" ry="13" fill="none" stroke="var(--forest)" stroke-width="1.8" stroke-dasharray="1 4" opacity="0.9" transform="rotate(-35 175 118)"/>
+        <text x="132" y="80" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--forest)">WUCMA: Wular reclamation, 5 km&#178; done</text>
+      </g>
+
+      <!-- POPULATION / DEMAND -->
+      <g id="layer-population-now" class="patch">
+        <g transform="translate(610,650)"><circle r="9" fill="none" stroke="var(--gold)" stroke-width="2" opacity="0.7"><animate attributeName="r" values="9;22;9" dur="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0;0.7" dur="2.4s" repeatCount="indefinite"/></circle><circle r="5" fill="var(--gold)"/></g>
+        <g transform="translate(445,430)"><circle r="9" fill="none" stroke="var(--gold)" stroke-width="2" opacity="0.7"><animate attributeName="r" values="9;22;9" dur="2.4s" begin="0.3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0;0.7" dur="2.4s" begin="0.3s" repeatCount="indefinite"/></circle><circle r="5" fill="var(--gold)"/></g>
+        <g transform="translate(330,500)"><circle r="9" fill="none" stroke="var(--gold)" stroke-width="2" opacity="0.7"><animate attributeName="r" values="9;22;9" dur="2.4s" begin="0.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0;0.7" dur="2.4s" begin="0.6s" repeatCount="indefinite"/></circle><circle r="5" fill="var(--gold)"/></g>
+        <g transform="translate(480,480)"><circle r="9" fill="none" stroke="var(--gold)" stroke-width="2" opacity="0.7"><animate attributeName="r" values="9;22;9" dur="2.4s" begin="0.9s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0;0.7" dur="2.4s" begin="0.9s" repeatCount="indefinite"/></circle><circle r="5" fill="var(--gold)"/></g>
+      </g>
+      <g id="layer-north" class="patch">
+        <g transform="translate(250,175)"><circle r="9" fill="none" stroke="var(--urban)" stroke-width="2" opacity="0.7"><animate attributeName="r" values="9;24;9" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0;0.7" dur="2.2s" repeatCount="indefinite"/></circle><circle r="4.5" fill="var(--urban)"/></g>
+        <g transform="translate(215,140)"><circle r="9" fill="none" stroke="var(--urban)" stroke-width="2" opacity="0.7"><animate attributeName="r" values="9;24;9" dur="2.2s" begin="0.3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0;0.7" dur="2.2s" begin="0.3s" repeatCount="indefinite"/></circle><circle r="4.5" fill="var(--urban)"/></g>
+        <g transform="translate(200,75)"><circle r="9" fill="none" stroke="var(--urban)" stroke-width="2" opacity="0.7"><animate attributeName="r" values="9;24;9" dur="2.2s" begin="0.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0;0.7" dur="2.2s" begin="0.6s" repeatCount="indefinite"/></circle><circle r="4.5" fill="var(--urban)"/></g>
+        <g transform="translate(95,105)"><circle r="9" fill="none" stroke="var(--urban)" stroke-width="2" opacity="0.7"><animate attributeName="r" values="9;24;9" dur="2.2s" begin="0.9s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0;0.7" dur="2.2s" begin="0.9s" repeatCount="indefinite"/></circle><circle r="4.5" fill="var(--urban)"/></g>
+      </g>
+      <g id="layer-population-plus5" class="patch">
+        <g transform="translate(480,480)">
+          <circle r="10" fill="none" stroke="var(--warn)" stroke-width="2.2" opacity="0.8"><animate attributeName="r" values="10;38;10" dur="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0;0.8" dur="2.4s" repeatCount="indefinite"/></circle>
+          <circle r="6" fill="var(--warn)"/>
+          <text x="46" y="-10" font-family="Inter" font-weight="700" font-size="11" fill="var(--warn)">13.93M &rarr; ~14.42M by 2031</text>
+        </g>
+        <g transform="translate(610,650)"><circle r="7" fill="var(--warn)" opacity="0.85"/></g>
+        <g transform="translate(445,430)"><circle r="7" fill="var(--warn)" opacity="0.85"/></g>
+        <g transform="translate(330,500)"><circle r="7" fill="var(--warn)" opacity="0.85"/></g>
+      </g>
+      <g id="layer-population-act" class="patch" fill="none">
+        <g transform="translate(480,480)">
+          <circle r="10" fill="none" stroke="var(--forest)" stroke-width="2.2" opacity="0.85"><animate attributeName="r" values="10;30;10" dur="2.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.85;0;0.85" dur="2.6s" repeatCount="indefinite"/></circle>
+          <text x="46" y="-10" font-family="Inter" font-weight="700" font-size="11" fill="var(--forest)">32% youth unemployment = untapped workforce</text>
+        </g>
+      </g>
+
+      <!-- LOCAL SUPPLY CHAIN: mutton/Eid, milk, vegetables -->
+      <g id="layer-supplychain-now" class="patch">
+        <g transform="translate(505,500)"><circle r="6" fill="var(--gold)" opacity="0.8"/><text x="10" y="-4" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--ink)">Mutton: 600 lakh kg/yr &middot; 58% local</text><text x="10" y="9" font-family="Inter" font-size="9" fill="var(--ink-dim)">Eid-ul-Adha: 1.92 lakh sheep, &#8377;384 Cr</text></g>
+        <g transform="translate(398,398)"><circle r="6" fill="var(--water)" opacity="0.8"/><text x="-10" y="-4" text-anchor="end" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--ink)">Milk: 31.77 lakh MT/yr (J&amp;K)</text><text x="-10" y="9" text-anchor="end" font-family="Inter" font-size="9" fill="var(--ink-dim)">Kashmir div.: ~40 lakh litres/day</text></g>
+        <g transform="translate(462,448)"><circle r="6" fill="var(--orchard)" opacity="0.8"/><text x="10" y="16" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--ink)">Vegetables: 16.69 lakh MT vs 10.52 needed</text><text x="10" y="29" font-family="Inter" font-size="9" fill="var(--ink-dim)">&#8377;1,239 Cr market, 2024&ndash;25</text></g>
+      </g>
+      <g id="layer-supplychain-plus5" class="patch">
+        <g transform="translate(505,500)"><circle r="8" fill="none" stroke="var(--warn)" stroke-width="2"><animate attributeName="r" values="8;20;8" dur="2.3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0;0.8" dur="2.3s" repeatCount="indefinite"/></circle><circle r="5" fill="var(--warn)"/><text x="14" y="-4" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--warn)">~621 lakh kg/yr &middot; Eid ~1.99 lakh sheep</text></g>
+        <g transform="translate(398,398)"><circle r="8" fill="none" stroke="var(--warn)" stroke-width="2"><animate attributeName="r" values="8;20;8" dur="2.3s" begin="0.3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0;0.8" dur="2.3s" begin="0.3s" repeatCount="indefinite"/></circle><circle r="5" fill="var(--warn)"/><text x="-14" y="-4" text-anchor="end" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--warn)">~42.5 lakh MT/yr modeled</text></g>
+        <g transform="translate(462,448)"><circle r="8" fill="none" stroke="var(--warn)" stroke-width="2"><animate attributeName="r" values="8;20;8" dur="2.3s" begin="0.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0;0.8" dur="2.3s" begin="0.6s" repeatCount="indefinite"/></circle><circle r="5" fill="var(--warn)"/><text x="14" y="16" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--warn)">~10.9 needed vs ~23.4 lakh MT modeled</text></g>
+      </g>
+      <g id="layer-supplychain-act" class="patch" fill="none">
+        <g transform="translate(505,500)"><circle r="7" fill="none" stroke="var(--forest)" stroke-width="1.8" stroke-dasharray="1 4"/><text x="14" y="-4" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--forest)">&#8377;150 Cr/yr leaves the valley on imports</text></g>
+        <g transform="translate(398,398)"><circle r="7" fill="none" stroke="var(--forest)" stroke-width="1.8" stroke-dasharray="1 4"/><text x="-14" y="-4" text-anchor="end" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--forest)">value-add: processing, not raw milk</text></g>
+        <g transform="translate(462,448)"><circle r="7" fill="none" stroke="var(--forest)" stroke-width="1.8" stroke-dasharray="1 4"/><text x="14" y="16" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--forest)">surplus already 59% above need &mdash; monetize it</text></g>
+      </g>
+
+      <!-- KASHMIR EXPORTS: apples, walnuts, saffron -->
+      <g id="layer-exports-now" class="patch">
+        <g transform="translate(250,175)"><circle r="6" fill="var(--orchard)" opacity="0.85"/><text x="-10" y="-10" text-anchor="end" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--ink)">Baramulla: 494,135 MT apples</text></g>
+        <g transform="translate(330,500)"><circle r="6" fill="var(--orchard)" opacity="0.85"/><text x="10" y="18" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--ink)">Shopian: 263,677 MT apples</text></g>
+        <g transform="translate(610,650)"><circle r="6" fill="var(--orchard)" opacity="0.85"/><text x="10" y="-10" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--ink)">Anantnag: 261,964 MT apples</text></g>
+        <g transform="translate(95,105)"><circle r="6" fill="var(--urban)" opacity="0.85"/><text x="-10" y="18" text-anchor="end" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--ink)">Kupwara: 37,010 MT walnuts</text></g>
+        <g transform="translate(465,455)"><path d="M0,-7 C5,-2 5,5 0,8 C-5,5 -5,-2 0,-7 Z" fill="var(--warn)" opacity="0.85"/><text x="10" y="4" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--ink)">Pampore: 13.36 MT saffron</text></g>
+      </g>
+      <g id="layer-exports-plus5" class="patch">
+        <g transform="translate(250,175)"><circle r="8" fill="none" stroke="var(--warn)" stroke-width="2"><animate attributeName="r" values="8;18;8" dur="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0;0.8" dur="2.4s" repeatCount="indefinite"/></circle><circle r="5" fill="var(--warn)"/><text x="-14" y="-10" text-anchor="end" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--warn)">~572,600 MT modeled</text></g>
+        <g transform="translate(330,500)"><circle r="8" fill="none" stroke="var(--warn)" stroke-width="2"><animate attributeName="r" values="8;18;8" dur="2.4s" begin="0.3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0;0.8" dur="2.4s" begin="0.3s" repeatCount="indefinite"/></circle><circle r="5" fill="var(--warn)"/><text x="14" y="18" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--warn)">~305,700 MT modeled</text></g>
+        <g transform="translate(465,455)"><circle r="8" fill="none" stroke="var(--warn)" stroke-width="2"><animate attributeName="r" values="8;18;8" dur="2.4s" begin="0.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0;0.8" dur="2.4s" begin="0.6s" repeatCount="indefinite"/></circle><circle r="5" fill="var(--warn)"/><text x="14" y="4" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--warn)">still 30% short of NSM target</text></g>
+      </g>
+      <g id="layer-exports-act" class="patch" fill="none">
+        <g transform="translate(465,455)"><circle r="9" fill="none" stroke="var(--forest)" stroke-width="1.8" stroke-dasharray="1 4"/><text x="14" y="-6" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--forest)">128 wells + sprinklers already installed</text><text x="14" y="7" font-family="Inter" font-size="9" fill="var(--forest)">yield already 1.88 &rarr; 4&ndash;5 kg/ha on rejuvenated land</text></g>
+        <g transform="translate(250,175)"><circle r="7" fill="none" stroke="var(--forest)" stroke-width="1.8" stroke-dasharray="1 4"/><text x="-14" y="-10" text-anchor="end" font-family="Inter" font-size="9.5" font-weight="700" fill="var(--forest)">same irrigation-capacity gap as the Agriculture stage</text></g>
+      </g>
+
+      <!-- WATER TREATMENT -->
+      <g id="layer-water-now" class="patch">
+        <path d="M410,290 C440,370 460,430 480,480" stroke="var(--water)" stroke-width="1.6" stroke-dasharray="2 4" opacity="0.6" fill="none"/>
+        <path d="M435,270 C455,350 465,420 480,480" stroke="var(--water)" stroke-width="1.6" stroke-dasharray="2 4" opacity="0.6" fill="none"/>
+        <path d="M505,455 C495,465 488,472 480,480" stroke="var(--water)" stroke-width="1.6" stroke-dasharray="2 4" opacity="0.6" fill="none"/>
+        <path d="M372,495 C405,490 445,485 480,480" stroke="var(--water)" stroke-width="1.6" stroke-dasharray="2 4" opacity="0.6" fill="none"/>
+        <g transform="translate(410,288)"><path d="M0,-8 C6,-2 6,6 0,10 C-6,6 -6,-2 0,-8 Z" fill="var(--water)" opacity="0.85"/><text x="9" y="-2" font-family="Inter" font-weight="700" font-size="10.5" fill="var(--ink)">Rangil WTP</text><text x="9" y="9" font-family="Inter" font-size="9.5" fill="var(--ink-dim)">Ganderbal &middot; 10 MGD</text></g>
+        <g transform="translate(435,268)"><path d="M0,-8 C6,-2 6,6 0,10 C-6,6 -6,-2 0,-8 Z" fill="var(--water)" opacity="0.85"/><text x="9" y="-2" font-family="Inter" font-weight="700" font-size="10.5" fill="var(--ink)">Alusteng WTP</text><text x="9" y="9" font-family="Inter" font-size="9.5" fill="var(--ink-dim)">Ganderbal &middot; 10 MGD</text></g>
+        <g transform="translate(508,452)"><path d="M0,-8 C6,-2 6,6 0,10 C-6,6 -6,-2 0,-8 Z" fill="var(--water)" opacity="0.85"/><text x="-9" y="-2" font-family="Inter" font-weight="700" font-size="10.5" fill="var(--ink)" text-anchor="end">Harvan WTP</text><text x="-9" y="9" font-family="Inter" font-size="9.5" fill="var(--ink-dim)" text-anchor="end">near Dal Lake &middot; 10 MGD</text></g>
+        <g transform="translate(372,493)"><path d="M0,-8 C6,-2 6,6 0,10 C-6,6 -6,-2 0,-8 Z" fill="var(--water)" opacity="0.85"/><text x="-9" y="-2" font-family="Inter" font-weight="700" font-size="10.5" fill="var(--ink)" text-anchor="end">Sukhnag WTP</text><text x="-9" y="9" font-family="Inter" font-size="9.5" fill="var(--ink-dim)" text-anchor="end">Budgam side &middot; 10 MGD</text></g>
+      </g>
+      <g id="layer-water-plus5" class="patch" fill="none">
+        <g stroke="var(--warn)" stroke-width="2" opacity="0.75">
+          <circle cx="410" cy="288" r="14"><animate attributeName="r" values="14;24;14" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.75;0;0.75" dur="2s" repeatCount="indefinite"/></circle>
+          <circle cx="435" cy="268" r="14"><animate attributeName="r" values="14;24;14" dur="2s" begin="0.25s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.75;0;0.75" dur="2s" begin="0.25s" repeatCount="indefinite"/></circle>
+          <circle cx="508" cy="452" r="14"><animate attributeName="r" values="14;24;14" dur="2s" begin="0.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.75;0;0.75" dur="2s" begin="0.5s" repeatCount="indefinite"/></circle>
+          <circle cx="372" cy="493" r="14"><animate attributeName="r" values="14;24;14" dur="2s" begin="0.75s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.75;0;0.75" dur="2s" begin="0.75s" repeatCount="indefinite"/></circle>
+        </g>
+        <g transform="translate(480,480)">
+          <circle r="14" fill="none" stroke="var(--warn)" stroke-width="2.4" opacity="0.85"><animate attributeName="r" values="14;40;14" dur="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.85;0;0.85" dur="2.4s" repeatCount="indefinite"/></circle>
+          <text x="48" y="-16" font-family="Inter" font-weight="700" font-size="11" fill="var(--warn)">Gap: 14 &rarr; ~16.2 MGD by 2031</text>
+          <text x="48" y="-3" font-family="Inter" font-size="9.5" fill="var(--warn)">same 4 plants, ~3.5% more people</text>
+        </g>
+      </g>
+      <g id="layer-water-act" class="patch" fill="none">
+        <g transform="translate(450,378)">
+          <path d="M0,-8 C6,-2 6,6 0,10 C-6,6 -6,-2 0,-8 Z" fill="var(--forest)" opacity="0.9"/>
+          <text x="9" y="-2" font-family="Inter" font-weight="700" font-size="10.5" fill="var(--forest)">+1 plant, ~15 MGD (proposed)</text>
+          <text x="9" y="9" font-family="Inter" font-size="9" fill="var(--forest)">closes the 2031 gap with headroom to spare</text>
+        </g>
+        <g transform="translate(480,480)">
+          <circle r="14" fill="none" stroke="var(--forest)" stroke-width="2.4" opacity="0.85"><animate attributeName="r" values="14;32;14" dur="2.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.85;0;0.85" dur="2.6s" repeatCount="indefinite"/></circle>
+          <text x="-48" y="-16" text-anchor="end" font-family="Inter" font-weight="700" font-size="11" fill="var(--forest)">-20% leakage &#8776; 9&ndash;10 MGD recovered</text>
+          <text x="-48" y="-3" text-anchor="end" font-family="Inter" font-size="9" fill="var(--forest)">before a single new pipe is laid</text>
+        </g>
+      </g>
+    </svg>
+
+    <div class="legend" id="legend"></div>
+    <div class="caption">Schematic relief map, not to scale &mdash; oriented southeast (Verinag, source) to northwest (Wular Lake), following the Jhelum's true course. Town and patch positions are illustrative, not surveyed.</div>
+  </div>
+</div>
+
+<div class="phase-toggle" id="phaseToggle"></div>
+<div class="phase-hint" id="phaseHint"></div>
+</div>
+
+<div class="content" id="panel"></div>
+</div>
+
+<div class="zoom-overlay" id="zoomOverlay" hidden>
+  <div class="zoom-panel" id="zoomPanel">
+    <button class="zoom-close" id="zoomClose" type="button">&#10005; Close</button>
+    <div id="zoomTarget"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+
+  var CASCADE_METHOD = [
+    {phase:'Categorization', text:'Tag every element in this stage to a real, sourced location'},
+    {phase:'Pattern', text:'Find what repeats across the stages already built'},
+    {phase:'Compounding', text:'Trace how this year’s change feeds next year’s'},
+    {phase:'Velocity', text:'Measure the rate now against the baseline'},
+  ];
+
+  var stages = [
+    {
+      key:'rivers', dot:'var(--river)', label:'Headwaters', title:'Where the water begins',
+      lead:'The Jhelum rises at Verinag Spring and is fed by named tributaries off the Pir Panjal and the Great Himalayas — each one traced to Kolahoi or Thajiwas glacier, and each one followed on this map to exactly where it ends up: a lake, a water-treatment intake, or the Wular outlet.',
+      cascade:[
+        {phase:'Categorization', text:'8 named tributaries and 2 headwater glaciers tagged and traced source-to-outlet — Lidder and Sind from the glaciers, Vishav, Rembiara, Doodhganga, Sukhnag Nallah, Romshi and Ningle Nallah off the ranges'},
+        {phase:'Pattern', text:'Every tributary on this map resolves back to one of two glacier systems, and every reach of the Jhelum resolves forward to a named intake or outlet — Rangil, Alusteng, Harvan and Sukhnag WTPs, and Wular Lake'},
+        {phase:'Compounding', text:'Less glacier mass this year lowers the base flow every year after, not just this one — and that flow is what those same four intakes draw from downstream'},
+        {phase:'Velocity', text:'Retreat is now measured at 4× the rate previously observed — the clock this whole model runs on'},
+      ],
+      phases:[
+        {pkey:'now', plabel:'Now', hero:{num:'18,000 glaciers', lbl:'across J&amp;K and Ladakh feed every river this model depends on'},
+          stats:[
+            {num:'110 km', lbl:'the Jhelum is navigable, Khanabal to Baramulla'},
+            {num:'23%', lbl:'of Kolahoi Glacier’s area already lost since 1962'},
+            {num:'28.8%', lbl:'average area loss across 147 mapped Himalayan glaciers, 1980–2018'},
+            {num:'2 &rarr; 8 &rarr; 4', lbl:'the real chain traced on this map: 2 glaciers feed 8 named tributaries feed the Jhelum, which supplies 4 named water-treatment intakes plus the Wular outlet'},
+          ], layers:['layer-river-connect']},
+        {pkey:'plus5', plabel:'+5 Years', hero:{num:'4×', lbl:'faster glacier retreat than previously observed — this is the compounding rate, not a worst case'},
+          stats:[
+            {num:'4 of 24', lbl:'Jhelum basin watersheds that still retain a glacier at all'},
+            {num:'Below-zero', lbl:'Jhelum flow already recorded in low-snow years'},
+            {num:'5 years', lbl:'straight of below-normal rainfall'},
+            {num:'&minus;29%', lbl:'2024 rainfall vs. normal — the driest year in 5 decades'},
+          ], layers:['layer-river-plus5','layer-river-connect']},
+        {pkey:'act', plabel:'If We Act', hero:{num:'You can’t refreeze a glacier', lbl:'so the honest response is downstream: measure the flow and buffer the supply, not promise to fix the source'},
+          stats:[
+            {num:'Flow gauges', lbl:'at both glacier snouts would convert "we think it’s worse" into a measured number<span class="modeled-tag">Directional</span>'},
+            {num:'Storage buffer', lbl:'at the Srinagar end absorbs a bad low-snow year instead of passing the shortfall straight to taps<span class="modeled-tag">Directional</span>'},
+          ], layers:['layer-river-act','layer-river-connect']},
+      ],
+      places:['Verinag','Kolahoi Glacier','Thajiwas Glacier','Srinagar','Baramulla','Wular Lake'],
+    },
+    {
+      key:'grazing', dot:'var(--meadow)', label:'Grazing & Migration', title:'The meadows, and the math behind the route',
+      lead:'This is a closed loop, not a one-way trip: up through the pass in May, back down in Sept&ndash;Oct, every year. The base is Rajouri, Kalakote, Poonch and Sunderbani on the Jammu side &mdash; outside this map, and marked here as Phase Two.',
+      cascade:[
+        {phase:'Categorization', text:'7 real grazing grounds and the 2 passes that reach them, all tagged to source'},
+        {phase:'Pattern', text:'The smaller grounds — Tral, Dachigam, Kokernag — sit inside the exact districts where orchard and forest conversion is fastest'},
+        {phase:'Compounding', text:'Every hectare of orchard or cleared forest at a meadow’s edge is a hectare the flock can’t reach next season'},
+        {phase:'Velocity', text:'At the valley’s current land-conversion pace, the small grounds feel the squeeze years before the headline numbers show it'},
+      ],
+      phases:[
+        {pkey:'now', plabel:'Now', hero:{num:'~7.4 lakh', lbl:'sheep and goats moved on this route each year — a real, reported headcount for the return leg alone, not an estimate'},
+          stats:[
+            {num:'Closed loop', lbl:'May: up through Pir Panjal Pass to summer pastures. Sept&ndash;Oct: back down the same corridor to the winter base — every year, not a one-way trip'},
+            {num:'Sonamarg, Vishansar, Thajiwas', lbl:'named summer pastures the herds reach, among others, once through the pass'},
+            {num:'3,490 m', lbl:'Pir Panjal Pass (Peer Ki Gali) — the lowest viable crossing, distance traded for altitude'},
+            {num:'3 of 7', lbl:'grounds are the smaller, easy-to-miss ones: Tral, Dachigam, Kokernag'},
+          ], layers:['layer-sheep','layer-migration']},
+        {pkey:'plus5', plabel:'+5 Years', hero:{num:'Same land, less of it', lbl:'the grounds nearest the fastest-converting districts lose margin first — this connects directly to the Agriculture and Forest stages, not a new number'},
+          stats:[
+            {num:'Tral', lbl:'sits inside Pulwama’s orchard belt — the valley’s fastest-converting district, per the Agriculture stage'},
+            {num:'Dachigam', lbl:'sits on Srinagar’s sprawl edge — the same "projected sprawl" zone flagged in the Urban stage'},
+            {num:'Kokernag', lbl:'sits inside Anantnag’s orchard belt, the valley’s largest population district'},
+            {num:'40.6 km²', lbl:'of forest already lost 2021–23 at exactly this belt’s edge, per the Forest stage'},
+          ], layers:['layer-sheep-plus5','layer-migration']},
+        {pkey:'act', plabel:'If We Act', hero:{num:'FRA 2006, extended to J&amp;K', lbl:'the legal mechanism to formally protect this corridor already exists — it doesn’t need to be invented, it needs to be used'},
+          stats:[
+            {num:'Forest Rights Act', lbl:'extended to J&amp;K after Article 370’s revocation, for the first time giving Gujjar-Bakarwal communities a legal grazing and forest-dwelling claim'},
+            {num:'3 small grounds', lbl:'are exactly where a formal corridor designation would matter most — they’re the ones losing margin first'},
+          ], layers:['layer-sheep-act','layer-migration']},
+      ],
+      places:['Pir Panjal Pass','Banihal Pass','Poonch','Rajouri','Tral','Dachigam','Kokernag'],
+    },
+    {
+      key:'agri', dot:'var(--orchard)', label:'Orchards, Paddy & Irrigation', title:'The same acres, changing use — and what actually waters them',
+      lead:'Shopian and Sopore are Kashmir’s apple towns; Pulwama and Budgam anchor the paddy belt. Underneath both sits a split most people never see: karewa upland, rainfed and orchard-heavy, versus the valley floor, fed by 21 named canal and lift schemes.',
+      cascade:[
+        {phase:'Categorization', text:'4 orchard districts, 4 paddy belts and 21 named irrigation schemes tagged on the same valley floor'},
+        {phase:'Pattern', text:'Orchard acreage rises exactly where paddy acreage falls, district for district — and karewa upland is where the orchards sit'},
+        {phase:'Compounding', text:'Orchards draw water year-round; the paddy they replace only needed it in season'},
+        {phase:'Velocity', text:'Conversion is fastest in Shopian and Pulwama — the valley’s two highest-growth districts'},
+      ],
+      phases:[
+        {pkey:'now', plabel:'Now', hero:{num:'Rice land &rarr; apple land', lbl:'the same acres, changing use, visible district by district'},
+          stats:[
+            {num:'4', lbl:'core orchard districts: Shopian, Sopore, Baramulla, Anantnag'},
+            {num:'4', lbl:'traditional paddy belts along the valley floor'},
+            {num:'2,500 km²', lbl:'karewa upland across the valley — rainfed terraces, not canal-fed, mostly saffron, apple and almond'},
+            {num:'~80%', lbl:'of Budgam’s cultivated land is karewa — the highest share of any district'},
+          ], layers:['layer-orchard','layer-paddy','layer-karewa']},
+        {pkey:'plus5', plabel:'+5 Years', hero:{num:'Paddy retreats, orchard advances', lbl:'the conversion already visible today doesn’t plateau — it compounds on the same fastest-growing districts'},
+          stats:[
+            {num:'Shopian + Pulwama', lbl:'fastest-converting districts — also the fastest-growing by population<span class="modeled-tag">Modeled</span>'},
+            {num:'Less recharge', lbl:'less paddy retained upstream means less water recharge for everyone downstream<span class="modeled-tag">Directional</span>'},
+            {num:'Karewa mining', lbl:'illegal soil extraction and the Qazigund&ndash;Baramulla railway alone have already cut into karewa terraces at real, documented sites'},
+          ], layers:['layer-orchard-plus5','layer-paddy-plus5','layer-karewa']},
+        {pkey:'act', plabel:'If We Act', hero:{num:'21 schemes, 0 published capacities', lbl:'this is the actual gap Burak needs filled — not modeled, just missing'},
+          stats:[
+            {num:'21 named schemes', lbl:'Dadi, Martand, Nandi, Tongri, Ahaji, Dab, Babul, Zainageer and more — real, from the Kashmir Irrigation &amp; Flood Control Dept’s own list, but with no public capacity figures'},
+            {num:'6 mega lift schemes', lbl:'Tral, Rajpora, Koil, Lethpora, Marvel LIS and Rafiabad High Lift — pump-driven, not gravity-fed, and the department’s list gives no pump-station capacity for any of them'},
+            {num:'4 flood zones', lbl:'Sangam (Anantnag), Ram Munshi Bagh (Srinagar), Pattan (Baramulla), Bandipora — all low-lying, non-karewa valley floor by definition; pump locations and capacities not publicly published'},
+            {num:'Paddy buffer zones', lbl:'protecting a core paddy belt preserves seasonal recharge capacity even as orchard expands elsewhere<span class="modeled-tag">Directional</span>'},
+            {num:'Drip irrigation', lbl:'a standard way to cut orchard water draw per hectare vs. flood-style irrigation<span class="modeled-tag">Directional</span>'},
+          ], layers:['layer-agri-act','layer-irrigation','layer-floodzones','layer-karewa']},
+      ],
+      places:['Shopian','Sopore','Pulwama','Budgam','Anantnag','Baramulla'],
+    },
+    {
+      key:'forest', dot:'var(--forest)', label:'Forests', title:'The mid-slope belt, clearing faster than it regrows',
+      lead:'A conifer belt of pine, deodar and fir rings the valley between meadow and farmland. It’s being cleared for roads, military sites and tourism builds faster than it’s replanted.',
+      cascade:[
+        {phase:'Categorization', text:'40.6 km² of forest tagged as lost, 2021–23, with a named cause per hectare'},
+        {phase:'Pattern', text:'60–70% of every cleared hectare traces to the same 3 drivers: roads, military sites, tourism builds'},
+        {phase:'Compounding', text:'Every cleared slope sheds more silt straight into the tributary directly below it'},
+        {phase:'Velocity', text:'At this clearance rate, ~100 km² more is gone within 5 years'},
+      ],
+      phases:[
+        {pkey:'now', plabel:'Now', hero:{num:'21,346 km²', lbl:'J&amp;K forest cover recorded in 2023'},
+          stats:[
+            {num:'40.6 km²', lbl:'lost in just 2021–23, per forest department data'},
+            {num:'60–70%', lbl:'of cleared land used for roads, military sites and tourism construction'},
+            {num:'4,156', lbl:'forest fire incidents, Nov 2023–June 2024'},
+          ], layers:['layer-forest-today']},
+        {pkey:'plus5', plabel:'+5 Years', hero:{num:'~100 km²', lbl:'projected loss over 5 years if the 2021–23 clearance rate holds<span class="modeled-tag">Modeled</span>'},
+          stats:[
+            {num:'110,000', lbl:'trees already cut for Srinagar’s Ring Road alone — real precedent for the trend'},
+            {num:'21,000+', lbl:'trees approved for removal in Jammu division infrastructure projects'},
+            {num:'More silt', lbl:'each cleared slope sheds more sediment into the tributary directly below it'},
+          ], layers:['layer-forest-plus5']},
+        {pkey:'act', plabel:'If We Act', hero:{num:'Compensatory afforestation', lbl:'is already the law — every hectare of forest legally diverted for infrastructure requires replanting elsewhere. Enforcing it is the lever, not inventing it'},
+          stats:[
+            {num:'4 cleared zones', lbl:'mapped here are exactly where a compensatory planting requirement already applies<span class="modeled-tag">Directional</span>'},
+            {num:'Erin & Madhumati', lbl:'catchments are already receiving real replanting, tied to WUCMA’s willow-removal program nearby'},
+          ], layers:['layer-forest-act']},
+      ],
+      places:['Baramulla forest belt','Pahalgam forest belt','Srinagar Ring Road corridor'],
+    },
+    {
+      key:'dalwular', dot:'var(--water)', label:'Dal &amp; Wular — The Two Lakes', title:'Kashmir’s two most-watched water bodies, run forward five years',
+      lead:'Dal Lake is the tourism economy; Wular is the flood buffer for the whole north valley and the endpoint of the Flood Spill Channel built in 1903. Both are shrinking on documented, government-audited numbers — not estimates.',
+      cascade:[
+        {phase:'Categorization', text:'Dal tagged from the CAG’s own audited figures; Wular tagged from a peer-reviewed NDWI satellite study — two different agencies, two different methods, same direction'},
+        {phase:'Pattern', text:'Both lakes lose area at a near-constant annual rate across their respective study windows — this isn’t a one-off flood year or a single bad season'},
+        {phase:'Compounding', text:'A smaller Dal concentrates sewage and silt into less water; a smaller Wular absorbs less flood volume for the same Jhelum discharge coming down the Flood Spill Channel'},
+        {phase:'Velocity', text:'Held at their own measured per-year rate, Dal loses roughly another 2.1 km² and Wular roughly another 2.5–3.5 km² inside 5 years'},
+      ],
+      phases:[
+        {pkey:'now', plabel:'Now', hero:{num:'12.91 km² &amp; 65.33 km²', lbl:'Dal Lake (CAG, 2020) and Wular Lake open-water extent (NDWI satellite study, 2024) — the two most recent audited measurements'},
+          stats:[
+            {num:'15.40&rarr;12.91 km²', lbl:'Dal Lake area, CAG-documented, 2007&ndash;2020 &mdash; a Comptroller and Auditor General finding, not a model'},
+            {num:'69.77&rarr;65.33 km²', lbl:'Wular Lake open-water extent, NDWI satellite study, 2015&ndash;2024'},
+            {num:'48 km, 1903', lbl:'the Flood Spill Channel, Srinagar&rarr;Wular &mdash; Wular is its outlet, so a smaller lake is a smaller safety margin for the same channel'},
+          ], layers:['layer-urban-today','wularToday','hokersarToday','dalToday']},
+        {pkey:'plus5', plabel:'+5 Years', hero:{num:'~10.8 km² &amp; ~62 km²', lbl:'modeled 2031 size for Dal and Wular, holding each lake’s own documented annual rate of loss steady<span class="modeled-tag">Modeled</span>'},
+          stats:[
+            {num:'~0.19 km²/yr', lbl:'Dal’s own CAG-documented average rate of loss &mdash; extrapolated, not assumed<span class="modeled-tag">Modeled</span>'},
+            {num:'~0.49 km²/yr', lbl:'Wular’s own NDWI-documented average rate of loss &mdash; extrapolated, not assumed<span class="modeled-tag">Modeled</span>'},
+            {num:'Less flood buffer', lbl:'a smaller Wular absorbs less of the Jhelum’s monsoon discharge &mdash; the same risk the 1903 channel was built to manage<span class="modeled-tag">Directional</span>'},
+            {num:'Houseboat &amp; fisheries economy', lbl:'both squeezed at once: Dal’s tourism trade and Wular’s fisheries sit on the same shrinking-water trend<span class="modeled-tag">Directional</span>'},
+          ], layers:['layer-urban-plus5','wularPlus5','hokersarPlus5','dalPlus5','layer-dalwular-plus5']},
+        {pkey:'act', plabel:'If We Act', hero:{num:'LCMA + WUCMA, both already in motion', lbl:'the institutional response to each lake already exists and is funded &mdash; the lever is pace, not invention'},
+          stats:[
+            {num:'LCMA', lbl:'Lake Conservation and Management Authority (renamed from LAWDA in 2021) runs Dal’s desilting and sewage-interception work today'},
+            {num:'5 km²', lbl:'of Wular already reclaimed by WUCMA, funded in part by its own willow-removal drive, with 2&ndash;3 km² more planned'},
+            {num:'Ramsar status', lbl:'Wular is a Ramsar-designated wetland &mdash; a real international framework already in place to justify sustained funding'},
+          ], layers:['layer-urban-today','wularToday','hokersarToday','dalToday','layer-dalwular-act']},
+      ],
+      places:['Dal Lake','Wular Lake','Srinagar','Bandipora'],
+    },
+    {
+      key:'population', dot:'var(--gold)', label:'Population & Demand', title:'The vector everything else runs on',
+      lead:'Run J&amp;K’s own official growth rate forward five years and every other number in this model — meat, water, land, grazing margin — moves with it. This is the vector, not a guess.',
+      cascade:[
+        {phase:'Categorization', text:'2026 population baseline tagged per district, from the 2011 census plus the state’s own projection'},
+        {phase:'Pattern', text:'Growth and water stress already line up on the same districts: Pulwama, Shopian, Srinagar'},
+        {phase:'Compounding', text:'Every added person adds to demand for meat, vegetables and water at once, not one at a time'},
+        {phase:'Velocity', text:'0.7%/year compounds to a ~3.5% population increase across J&amp;K within just 5 years'},
+      ],
+      phases:[
+        {pkey:'now', plabel:'Now', hero:{num:'13.93M', lbl:'J&amp;K population, 2026 official projection — the baseline every other number in this model scales from'},
+          stats:[
+            {num:'1,078,692', lbl:'Anantnag district (2011) — largest population in the valley'},
+            {num:'560,440', lbl:'Pulwama district (2011) — fastest-growing at +29.18%, 2001–11'},
+            {num:'1,236,829', lbl:'Srinagar district (2011)'},
+            {num:'0.7%/yr', lbl:'J&amp;K’s own official 2023–26 growth rate — the vector this whole projection runs on'},
+          ], layers:['layer-population-now','layer-north'],
+          distTable:{title:'KASHMIR DIVISION &mdash; population by district (2011 census)',
+            headers:['District','Population'],
+            rows:[
+              ['<b>Srinagar</b>','1,236,829'],
+              ['<b>Baramulla</b>','1,008,039'],
+              ['<b>Anantnag</b>','1,078,692'],
+              ['<b>Kupwara</b>','870,354'],
+              ['<b>Budgam</b>','753,745'],
+              ['<b>Pulwama</b>','560,440'],
+              ['<b>Kulgam</b>','424,483'],
+              ['<b>Bandipora</b>','392,232'],
+              ['<b>Ganderbal</b>','297,446'],
+              ['<b>Shopian</b>','266,215'],
+              ['Kashmir Division total','6,888,475'],
+            ]}},
+        {pkey:'plus5', plabel:'+5 Years', hero:{num:'~14.42M', lbl:'modeled 2031 population, at the state’s own 0.7%/year rate<span class="modeled-tag">Modeled</span>'},
+          stats:[
+            {num:'~494,000', lbl:'additional people modeled across J&amp;K over the next 5 years<span class="modeled-tag">Modeled</span>'},
+            {num:'+6–9%', lbl:'proportional rise in modeled Srinagar mutton demand over the same window<span class="modeled-tag">Modeled</span>'},
+            {num:'Kupwara', lbl:'the single fastest town-level growth rate in this model: +3.90%/year, 2001–11'},
+            {num:'Supply squeeze', lbl:'vegetable and paddy output face the same land converting to orchards and housing<span class="modeled-tag">Directional</span>'},
+          ], layers:['layer-population-plus5','layer-north'],
+          distTable:{title:'KASHMIR DIVISION &mdash; modeled 2031 population &amp; demand growth by district (+~3.5%/5yr, J&amp;K&rsquo;s own rate)',
+            headers:['District','Pop. 2011','Modeled 2031','Demand growth'],
+            rows:[
+              ['<b>Srinagar</b>','1,236,829','~1,280,118','+3.5%'],
+              ['<b>Baramulla</b>','1,008,039','~1,043,320','+3.5%'],
+              ['<b>Anantnag</b>','1,078,692','~1,116,446','+3.5%'],
+              ['<b>Kupwara</b>','870,354','~900,816','+3.5%'],
+              ['<b>Budgam</b>','753,745','~780,376','+3.5%'],
+              ['<b>Pulwama</b>','560,440','~580,056','+3.5%'],
+              ['<b>Kulgam</b>','424,483','~439,340','+3.5%'],
+              ['<b>Bandipora</b>','392,232','~406,060','+3.5%'],
+              ['<b>Ganderbal</b>','297,446','~307,857','+3.5%'],
+              ['<b>Shopian</b>','266,215','~275,533','+3.5%'],
+              ['Kashmir Division total (modeled)','6,888,475','~7,129,922','+3.5%'],
+            ]}},
+        {pkey:'act', plabel:'If We Act', hero:{num:'32% vs ~16%', lbl:'J&amp;K urban youth unemployment is nearly double the national rate — the same growth driving the squeeze is the labor force that can be built around solving it'},
+          stats:[
+            {num:'Young workforce', lbl:'sitting exactly where water, food and agri-tech ventures are expanding<span class="modeled-tag">Directional</span>'},
+          ], layers:['layer-population-act','layer-north']},
+      ],
+      places:['Srinagar','Pulwama','Shopian','Anantnag','Baramulla','Sopore','Bandipora','Kupwara'],
+    },
+    {
+      key:'supplychain', dot:'var(--warn)', label:'Local Supply Chain', title:'What the valley eats and drinks, priced and run forward',
+      lead:'Mutton, milk and vegetables aren&rsquo;t separate stories — they all scale with the same population vector from the stage above. <b>Kashmir Division</b>, district by district, below; J&amp;K-wide totals sit above them as the source baseline.',
+      cascade:[
+        {phase:'Categorization', text:'3 real markets tagged from government and trade-body reporting: mutton (incl. Eid-ul-Adha), milk and vegetables; district demand derived by applying J&amp;K&rsquo;s own published per-capita rate to each district&rsquo;s 2011 population'},
+        {phase:'Pattern', text:'Mutton is a structural import — 42% of demand — while vegetables already run a growing surplus. Two different problems, not one'},
+        {phase:'Compounding', text:'Every added person adds demand to all three markets at once, at the same ~3.5%/5yr rate established in the Population stage'},
+        {phase:'Velocity', text:'The mutton import bill and the vegetable surplus both grow in the same 5 years — one is a cost to close, the other a market to capture'},
+      ],
+      phases:[
+        {pkey:'now', plabel:'Now', hero:{num:'&#8377;384 Cr', lbl:'Kashmir&rsquo;s Eid-ul-Adha livestock trade alone — 1.92 lakh sheep at an average &#8377;20,000 each, 2026'},
+          stats:[
+            {num:'600 lakh kg/yr', lbl:'total J&amp;K mutton consumption — 350 lakh kg (58%) produced locally, 250 lakh kg (42%) imported'},
+            {num:'31.77 lakh MT/yr', lbl:'J&amp;K milk production, 2024&ndash;25 — Kashmir division alone runs ~40 lakh litres/day'},
+            {num:'16.69 vs 10.52 lakh MT', lbl:'vegetables produced vs. needed, 2024&ndash;25 — a 6.17 lakh MT surplus worth &#8377;1,239 Cr'},
+          ], layers:['layer-supplychain-now'],
+          distTable:{title:'KASHMIR DIVISION &mdash; mutton &amp; milk demand by district (2011 population, J&amp;K&rsquo;s own per-capita rate)',
+            headers:['District','Population','Mutton/yr','Milk/yr'],
+            rows:[
+              ['<b>Srinagar</b>','1,236,829','53.3 lakh kg','2.82 lakh MT'],
+              ['<b>Baramulla</b>','1,008,039','43.4 lakh kg','2.30 lakh MT'],
+              ['<b>Anantnag</b>','1,078,692','46.5 lakh kg','2.46 lakh MT'],
+              ['<b>Kupwara</b>','870,354','37.5 lakh kg','1.99 lakh MT'],
+              ['<b>Budgam</b>','753,745','32.5 lakh kg','1.72 lakh MT'],
+              ['<b>Pulwama</b>','560,440','24.2 lakh kg','1.28 lakh MT'],
+              ['<b>Kulgam</b>','424,483','18.3 lakh kg','0.97 lakh MT'],
+              ['<b>Bandipora</b>','392,232','16.9 lakh kg','0.89 lakh MT'],
+              ['<b>Ganderbal</b>','297,446','12.8 lakh kg','0.68 lakh MT'],
+              ['<b>Shopian</b>','266,215','11.5 lakh kg','0.61 lakh MT'],
+              ['Kashmir Division total','6,888,475','296.9 lakh kg','15.72 lakh MT'],
+            ]}},
+        {pkey:'plus5', plabel:'+5 Years', hero:{num:'~621 lakh kg/yr', lbl:'modeled 2031 mutton demand, scaled by J&amp;K&rsquo;s own ~3.5%/5yr population vector<span class="modeled-tag">Modeled</span>'},
+          stats:[
+            {num:'~1.99 lakh sheep, ~&#8377;397 Cr', lbl:'modeled 2031 Eid-ul-Adha trade, same vector applied to this year&rsquo;s actual headcount and price<span class="modeled-tag">Modeled</span>'},
+            {num:'~42.5 lakh MT/yr', lbl:'modeled 2031 milk production, holding J&amp;K&rsquo;s own most recent documented annual growth rate (~6%) steady<span class="modeled-tag">Modeled</span>'},
+            {num:'~10.9 needed vs ~23.4 lakh MT', lbl:'modeled 2031 vegetable requirement vs. production if the recent growth trend continues at half its recorded pace<span class="modeled-tag">Modeled</span>'},
+          ], layers:['layer-supplychain-plus5'],
+          distTable:{title:'KASHMIR DIVISION &mdash; modeled 2031 demand by district (+3.5%/5yr, same vector as the Population stage)',
+            headers:['District','Pop. (modeled)','Mutton/yr','Milk/yr'],
+            rows:[
+              ['<b>Srinagar</b>','~1,280,118','~55.2 lakh kg','~2.92 lakh MT'],
+              ['<b>Baramulla</b>','~1,043,320','~44.9 lakh kg','~2.38 lakh MT'],
+              ['<b>Anantnag</b>','~1,116,446','~48.1 lakh kg','~2.55 lakh MT'],
+              ['<b>Kupwara</b>','~900,816','~38.8 lakh kg','~2.06 lakh MT'],
+              ['<b>Budgam</b>','~780,376','~33.6 lakh kg','~1.78 lakh MT'],
+              ['<b>Pulwama</b>','~580,056','~25.0 lakh kg','~1.32 lakh MT'],
+              ['<b>Kulgam</b>','~439,340','~18.9 lakh kg','~1.00 lakh MT'],
+              ['<b>Bandipora</b>','~406,060','~17.5 lakh kg','~0.92 lakh MT'],
+              ['<b>Ganderbal</b>','~307,857','~13.3 lakh kg','~0.70 lakh MT'],
+              ['<b>Shopian</b>','~275,533','~11.9 lakh kg','~0.63 lakh MT'],
+              ['Kashmir Division total (modeled)','~7,129,922','~307.4 lakh kg','~16.27 lakh MT'],
+            ]}},
+        {pkey:'act', plabel:'If We Act', hero:{num:'&#8377;150 Cr/yr saved &plus; &#8377;1,239 Cr/yr earnable', lbl:'two different pockets of money — mutton is money currently leaving the valley, vegetables are money already produced but not yet captured'},
+          stats:[
+            {num:'SAVINGS &middot; &#8377;150 Cr/yr', lbl:'kept inside the valley by growing local flock size against the mutton import gap — 250 lakh kg &times; &#8377;600/kg, the same FRA-protected grazing corridor from the Grazing stage is the supply lever', cls:'gain', wide:true},
+            {num:'Entry point &middot; mutton', lbl:'50&ndash;80 registered sheep on that corridor supplies ~1&ndash;2 MT/yr into the gap — the land right already exists, flock size is the only missing input', cls:'gain'},
+            {num:'EARNING &middot; dairy processing', lbl:'milk output is growing fast (a documented 19.6% single-year jump) — paneer, cheese and ghee sell at 3&ndash;5&times; the raw-milk litre price<span class="modeled-tag">Directional</span>', cls:'gain'},
+            {num:'Entry point &middot; dairy', lbl:'a 20&ndash;30 litre/day household herd moves from a &#8377;25&ndash;30/litre raw price to a packaged-product price several times higher with no change in herd size', cls:'gain'},
+            {num:'EARNING &middot; &#8377;1,239 Cr/yr surplus', lbl:'vegetables already run 59% above local need — 6.17 lakh MT of production that exists today and just needs cold storage &amp; logistics to reach export markets instead of crashing in price at harvest', cls:'gain', wide:true},
+            {num:'Entry point &middot; vegetables', lbl:'growers with existing surplus land need storage/logistics access, not more acreage — production is already sitting on that &#8377;1,239 Cr figure', cls:'gain'},
+          ], layers:['layer-supplychain-act'],
+          distTable:{title:'KASHMIR DIVISION &mdash; where the &#8377;150 Cr/yr mutton opportunity concentrates, by district',
+            headers:['District','Share of division demand','Modeled &#8377; opportunity'],
+            rows:[
+              ['<b>Srinagar</b>','17.9%','&#8377;26.9 Cr/yr'],
+              ['<b>Anantnag</b>','15.7%','&#8377;23.5 Cr/yr'],
+              ['<b>Baramulla</b>','14.6%','&#8377;21.9 Cr/yr'],
+              ['<b>Kupwara</b>','12.6%','&#8377;18.9 Cr/yr'],
+              ['<b>Budgam</b>','11.0%','&#8377;16.4 Cr/yr'],
+              ['<b>Pulwama</b>','8.2%','&#8377;12.2 Cr/yr'],
+              ['<b>Kulgam</b>','6.2%','&#8377;9.3 Cr/yr'],
+              ['<b>Bandipora</b>','5.7%','&#8377;8.5 Cr/yr'],
+              ['<b>Ganderbal</b>','4.3%','&#8377;6.5 Cr/yr'],
+              ['<b>Shopian</b>','3.9%','&#8377;5.8 Cr/yr'],
+              ['Kashmir Division total (modeled)','100%','&#8377;149.9 &asymp; 150 Cr/yr'],
+            ]}},
+      ],
+      places:['Srinagar','Pulwama','Budgam','Anantnag'],
+    },
+    {
+      key:'exports', dot:'var(--paddy)', label:'Kashmir Exports', title:'Apples, walnuts, saffron — and the one proven water-to-yield story',
+      lead:'<b>KASHMIR DIVISION</b> grows nearly all of it. Three crops, three different water stories — and one of them, saffron, already has a documented, government-audited before/after for what irrigation does to yield.',
+      cascade:[
+        {phase:'Categorization', text:'3 export crops tagged to real district and department figures: apples, walnuts, saffron'},
+        {phase:'Pattern', text:'Apple and walnut output already concentrates in the same 3&ndash;4 districts named in the Agriculture stage; saffron sits almost entirely in one belt, Pampore'},
+        {phase:'Compounding', text:'Every one of these crops draws on the same karewa-vs-valley-floor water split already mapped in the Irrigation stage'},
+        {phase:'Velocity', text:'Saffron and apples both now have a measured rate: saffron&rsquo;s irrigated land already yields 2&ndash;2.5&times; the rainfed baseline on 70% of target area; apple high-density planting yields 4&ndash;5.6&times; the valley average — the same division-problem math scales both to exactly how much more infrastructure closes the rest'},
+      ],
+      phases:[
+        {pkey:'now', plabel:'Now', hero:{num:'&#8377;6,003 Cr', lbl:'J&amp;K&rsquo;s total fresh fruit trade sent outside the Union Territory, 2024&ndash;25 — apples are the overwhelming majority of that volume and value. This is the present export value everything below is measured against'},
+          stats:[
+            {num:'~12.4 MT/ha', lbl:'Kashmir&rsquo;s own average apple yield today (2.03M MT &divide; 164,326 ha) — matches the traditional-orchard benchmark of 10&ndash;15 MT/ha exactly'},
+            {num:'37,010 MT', lbl:'Kupwara&rsquo;s own walnut output, 2023&ndash;24, on 8,800 ha (~4.2 MT/ha) — J&amp;K-wide walnut output is reported at 307,112 MT'},
+            {num:'13.36 MT', lbl:'saffron, 2020 — a decade high, from 3,715 ha across Pulwama (Pampore), Budgam and parts of Srinagar, GI-tagged in 2020'},
+            {num:'&#8377;73.98 Cr &rarr; &#8377;20.02 Cr', lbl:'J&amp;K&rsquo;s own walnut export value, 2021&ndash;22 vs. 2023&ndash;24 — a 73% fall in three years, production held roughly steady'},
+          ], layers:['layer-exports-now'],
+          distTable:{title:'KASHMIR DIVISION &mdash; apple output, named districts',
+            headers:['District','Apples (MT)','Share of named total'],
+            rows:[
+              ['<b>Baramulla</b>','494,135','48.8%'],
+              ['<b>Shopian</b>','263,677','26.1%'],
+              ['<b>Anantnag</b>','261,964','25.9%'],
+              ['Rest of Kashmir division','not broken out in published data','&mdash;'],
+              ['Named districts, total','1,019,776 of 2.03M MT valley-wide','&mdash;'],
+            ]}},
+        {pkey:'plus5', plabel:'+5 Years', hero:{num:'+18,825&ndash;28,825 MT/yr', lbl:'the exact incremental apple yield modeled from the 500 ha the valley&rsquo;s own 2026 high-density planting drive covers, once it reaches full yield around 2030&ndash;31<span class="modeled-tag">Modeled</span>'},
+          stats:[
+            {num:'1.5M trees &divide; 3,000/ha = 500 ha', lbl:'this year&rsquo;s Qul Fruits-led high-density planting drive, at high-density spacing — the math behind the 500 ha figure, shown in full'},
+            {num:'50&ndash;70 MT/ha vs ~12.4 MT/ha', lbl:'documented high-density yield range vs. Kashmir&rsquo;s own traditional-orchard average — a 4&ndash;5.6&times; jump, not an estimate'},
+            {num:'500 ha &times; (50 to 70 &minus; 12.4) MT/ha', lbl:'= 18,825 to 28,825 MT/yr of new apple production from this one planting drive alone, on the same land, once mature<span class="modeled-tag">Modeled</span>'},
+            {num:'163,826 ha still on traditional yield', lbl:'total orchard area (164,326 ha) minus the 500 ha this drive already covers — the scale drip conversion could still reach<span class="modeled-tag">Modeled</span>'},
+            {num:'&#8377;6,003 Cr &divide; 23.18 lakh MT &asymp; &#8377;25,900/MT', lbl:'J&amp;K&rsquo;s own blended fresh-fruit trade rate, derived from the Now panel&rsquo;s two real figures — the price this whole stage&rsquo;s tonnage converts to rupees at<span class="modeled-tag">Modeled</span>'},
+            {num:'+&#8377;49&ndash;75 Cr/yr', lbl:'rupee value of the 18,825&ndash;28,825 MT incremental yield at that blended rate — the money number behind the tonnage number<span class="modeled-tag">Modeled</span>', cls:'gain'},
+            {num:'~1,116 ha still short', lbl:'of the National Saffron Mission&rsquo;s 3,715 ha target — 70% is already rejuvenated, 30% isn&rsquo;t'},
+          ], layers:['layer-exports-plus5']},
+        {pkey:'act', plabel:'If We Act', hero:{num:'&#8377;132 Cr unlocks &#8377;723&ndash;733 Cr/yr', lbl:'apples, saffron and walnuts combined — three real infrastructure/market fixes, each with its own built-ratio math, none of it invented'},
+          stats:[
+            {num:'128 wells &times; 30 ha/well = 3,840 ha design capacity', lbl:'NSM&rsquo;s own built ratio: each well feeds 30 sprinkler sets, each set covers exactly 1 ha'},
+            {num:'1,116 ha remaining &divide; 30 ha/well = 37.2 &rarr; 38 wells', lbl:'the exact well count needed to finish the saffron mission, at the same design ratio already proven on the first 128'},
+            {num:'38 wells &times; 30 sets = 1,140 sprinkler sets, ~&#8377;76 Cr', lbl:'38 wells &times; &#8377;2.01 Cr/well (&#8377;257.28 Cr spent &divide; 128 wells built so far) — the cost to finish saffron, at NSM&rsquo;s own demonstrated rate<span class="modeled-tag">Modeled</span>'},
+            {num:'1,116 ha &times; (4&ndash;5 &minus; 1.88) kg/ha = 2,366&ndash;3,482 kg saffron/yr', lbl:'incremental yield once the remaining 30% is irrigated to NSM&rsquo;s own documented rate (1.88 kg/ha rainfed &rarr; 4&ndash;5 kg/ha irrigated) — the same gap math as apples, run on saffron<span class="modeled-tag">Modeled</span>'},
+            {num:'&times; &#8377;1.8 lakh/kg farmer-level GI price = &#8377;43&ndash;63 Cr/yr', lbl:'Kashmir&rsquo;s own post-GI-tag farmer price for saffron — a &#8377;76 Cr one-time well spend against &#8377;43&ndash;63 Cr/yr in recurring added value, paying itself back in ~1&ndash;2 seasons', cls:'gain', wide:true},
+            {num:'Apples: 5,000 ha target &divide; 3,000 trees/ha = 15M trees', lbl:'scaling the 2026 high-density drive 10&times; over 5 years (1.5M &rarr; 15M trees) — 4,500 ha of that target still needs new drip systems beyond the 500 ha already underway<span class="modeled-tag">Directional</span>'},
+            {num:'4,500 ha &times; &#8377;1.25 lakh/ha (India&rsquo;s own standard drip-install rate) = &#8377;56 Cr', lbl:'the exact investment behind that scale-up, at the standard &#8377;45,000&ndash;60,000/acre install cost — not a round number, a division problem run the same way as saffron&rsquo;s', cls:'gain', wide:true},
+            {num:'5,000 ha &times; 47.6 MT/ha gain = 238,000 MT/yr &rarr; ~&#8377;616 Cr/yr', lbl:'at the same &#8377;25,900/MT blended rate — a &#8377;56 Cr one-time spend against &#8377;616 Cr/yr in recurring added export value, once mature', cls:'gain', wide:true},
+            {num:'Walnuts: &#8377;54 Cr/yr recoverable', lbl:'J&amp;K&rsquo;s own walnut export value fell &#8377;73.98 Cr &rarr; &#8377;20.02 Cr (2021&ndash;22 to 2023&ndash;24) while production held steady — that gap is a processing/market-access fix, not a production shortfall', cls:'gain'},
+            {num:'7 lakh+ families', lbl:'J&amp;K&rsquo;s own figure for households already dependent on horticulture (apples, walnuts, saffron combined) — the workforce this &#8377;132 Cr sits on top of, not a new one being built from scratch', cls:'gain'},
+          ], layers:['layer-exports-act']},
+      ],
+      places:['Baramulla','Shopian','Anantnag','Kupwara','Pampore','Pulwama','Budgam'],
+    },
+    {
+      key:'water', dot:'var(--water)', label:'Water Supply', title:'What the same growth does to the same four plants',
+      lead:'Four plants — Rangil, Alusteng, Harvan, Sukhnag — carry nearly all of Srinagar’s treated water. The deficit between them isn’t new. What’s new is what population growth does to it if nothing is added.',
+      cascade:[
+        {phase:'Categorization', text:'Same 4 plants, same wetlands, one new input: 5 more years of population growth'},
+        {phase:'Pattern', text:'The deficit doesn’t grow because the system breaks — it grows because nothing was added to it'},
+        {phase:'Compounding', text:'Every person added on top of an already-short system makes the shortfall a larger share, not just a larger number'},
+        {phase:'Velocity', text:'A ~25% unmet-demand share by 2031 is what "doing nothing" costs, priced in MGD'},
+      ],
+      phases:[
+        {pkey:'now', plabel:'Now', hero:{num:'62 vs ~48 MGD', lbl:'Srinagar’s own historical benchmark deficit — the gap these 4 plants have run against for over a decade'},
+          stats:[
+            {num:'10 MGD', lbl:'Rangil WTP, Ganderbal — Sind tributary system'},
+            {num:'10 MGD', lbl:'Alusteng WTP, Ganderbal — same Sind-fed system'},
+            {num:'10 MGD', lbl:'Harvan WTP, near Dal Lake — closest to the city core'},
+            {num:'10 MGD', lbl:'Sukhnag WTP, Budgam side — Dudhganga/Sandran system'},
+          ], layers:['layer-water-now']},
+        {pkey:'plus5', plabel:'+5 Years', hero:{num:'14 &rarr; ~16.2 MGD', lbl:'the supply gap today vs. modeled 2031, if capacity stays flat while population keeps growing<span class="modeled-tag">Modeled</span>'},
+          stats:[
+            {num:'62 &rarr; ~64.2 MGD', lbl:'water needed today vs. modeled 2031, scaled by J&amp;K’s own ~3.5%/5yr growth rate<span class="modeled-tag">Modeled</span>'},
+            {num:'~48 MGD', lbl:'still available from the same 4 plants — unchanged since they were built<span class="modeled-tag">Directional</span>'},
+            {num:'~25%', lbl:'of demand unmet by 2031 if nothing is added — up from ~23% today<span class="modeled-tag">Modeled</span>'},
+          ], layers:['layer-water-now','layer-water-plus5']},
+        {pkey:'act', plabel:'If We Act', hero:{num:'~16.2 MGD gap &rarr; closeable', lbl:'one proposed plant plus realistic leakage recovery covers the modeled 2031 shortfall, with room to spare<span class="modeled-tag">Directional</span>'},
+          stats:[
+            {num:'+15 MGD', lbl:'one new plant at roughly Rangil’s own scale closes the entire modeled gap on its own<span class="modeled-tag">Directional</span>'},
+            {num:'~9–10 MGD', lbl:'recoverable from cutting distribution leakage ~20% — a standard benchmark for under-maintained systems, no new pipe required<span class="modeled-tag">Directional</span>'},
+          ], layers:['layer-water-now','layer-water-act']},
+      ],
+      places:['Rangil','Alusteng','Harvan','Sukhnag','Srinagar'],
+    },
+    {
+      key:'bigpicture', dot:'var(--gold)', label:'Big Picture', title:'Every cascade, on one map, at once',
+      lead:'Every stage above ran its own Categorization &rarr; Pattern &rarr; Compounding &rarr; Velocity. Flip between the two states below and watch all nine cascades move together — because in the valley, they already do.',
+      cascade:[
+        {phase:'Categorization', text:'9 independent stages — glaciers, grazing, agriculture, forest, Dal &amp; Wular, population, the local supply chain, exports, water — each tagged and sourced on its own'},
+        {phase:'Pattern', text:'All 9 share the same 3 fastest-moving districts: Pulwama, Shopian, Srinagar'},
+        {phase:'Compounding', text:'Glacier retreat &rarr; less flow &rarr; thirstier orchards &rarr; less paddy &rarr; less recharge &rarr; smaller Dal &amp; Wular &rarr; the same shrinking buffer absorbing a growing population that also needs more mutton, milk, vegetables, apples, walnuts and saffron'},
+        {phase:'Velocity', text:'None of the 9 curves is flat. All 9 move in the same direction, in the same 5 years, unless something is added to at least one of them'},
+      ],
+      phases:[
+        {pkey:'plus5', plabel:'If Nothing Changes', hero:{num:'9 for 9', lbl:'every stage in this model gets worse on the current trend — none of them holds steady on its own'},
+          stats:[
+            {num:'~16.2 MGD', lbl:'water gap by 2031, up from 14 today'},
+            {num:'~100 km²', lbl:'more forest gone within 5 years at the current clearance rate'},
+            {num:'&#8377;723&ndash;733 Cr/yr unrealized', lbl:'the combined apple, saffron and walnut opportunity sitting untouched for another 5 years if nothing is added<span class="modeled-tag">Modeled</span>'},
+            {num:'~10.8 &amp; ~62 km²', lbl:'modeled Dal and Wular size by 2031, each holding its own documented rate of loss steady'},
+            {num:'~621 lakh kg/yr', lbl:'modeled 2031 mutton demand, with the same ~42% import share persisting unless the grazing corridor is used'},
+            {num:'~1,116 ha still short', lbl:'of the National Saffron Mission&rsquo;s irrigation target, capping saffron output for another 5 years if the pace doesn&rsquo;t change'},
+          ], layers:['layer-river-plus5','layer-river-connect','layer-sheep-plus5','layer-orchard-plus5','layer-paddy-plus5','layer-forest-plus5','wularPlus5','hokersarPlus5','dalPlus5','layer-dalwular-plus5','layer-population-plus5','layer-north','layer-supplychain-plus5','layer-exports-plus5','layer-water-plus5','layer-migration']},
+        {pkey:'act', plabel:'If We Act', hero:{num:'&#8377;132 Cr unlocks &#8377;723&ndash;733 Cr/yr', lbl:'every lever already exists — FRA 2006, WUCMA, LCMA, one new plant, import substitution and the National Saffron Mission are all real, in motion or on the books today. None of the money above is invented either'},
+          stats:[
+            {num:'+15 MGD & -20% leakage', lbl:'closes the entire modeled 2031 water gap'},
+            {num:'FRA 2006', lbl:'already protects the grazing corridor, if used'},
+            {num:'5 km² reclaimed', lbl:'by WUCMA on Wular already, funded by its own restoration work; LCMA runs the same kind of work on Dal'},
+            {num:'&#8377;150 Cr/yr + &#8377;1,239 Cr/yr', lbl:'mutton import-substitution savings plus the vegetable surplus already earnable, using the same grazing corridor and existing production', cls:'gain'},
+            {num:'&#8377;616 Cr/yr apples + &#8377;43&ndash;63 Cr/yr saffron + &#8377;54 Cr/yr walnuts', lbl:'the three export crops&rsquo; own built-ratio math, each with its own infrastructure cost shown in the Exports stage', cls:'gain', wide:true},
+            {num:'7 lakh+ families', lbl:'already the horticulture workforce this whole response builds on top of — not a new labor force, an existing one being paid more<span class="modeled-tag">Directional</span>', cls:'gain'},
+            {num:'32% youth unemployment', lbl:'is the labor pool this whole response can also be built with, beyond horticulture&rsquo;s existing families'},
+          ], layers:['layer-river-act','layer-river-connect','layer-sheep-act','layer-agri-act','layer-forest-act','layer-urban-today','wularToday','hokersarToday','dalToday','layer-dalwular-act','layer-population-act','layer-north','layer-supplychain-act','layer-exports-act','layer-water-act','layer-migration']},
+      ],
+      places:[],
+    },
+    {
+      key:'nextsteps', dot:'var(--gold)', label:'Help Us Build This', title:'This is a stepping-stone, not a finished forecast',
+      isEpilogue:true,
+      lead:'Everything above is built from the 2011 census, J&amp;K’s own official growth rate, and real, cited studies — run through Burak Sciences’ own Categorization &rarr; Pattern &rarr; Compounding &rarr; Velocity method, the same approach behind our ovine and human health biomarker work. It’s a representation based on the data that was actually available, not a certified forecast.',
+      body:[
+        'A lot of the data that exists on Kashmir’s water, land and grazing systems is incomplete, or simply not available, once you go looking for it. The gaps in this model are deliberate — the Irrigation stage above shows 21 real, named schemes with zero published capacity figures, on purpose. That gap is a call, not an oversight.',
+        'This is a first build, and it can get richer with real help: from universities, government departments, researchers, or anyone sitting on cleaner numbers than what’s public. Give us accurate data and we fold it in.',
+      ],
+      list:[
+        {b:'Water treatment tables', t:'starting with Srinagar’s own data — plant-by-plant capacity, actual output, distribution losses — then expanding district by district as data comes in.'},
+        {b:'Irrigation scheme capacity', t:'the 21 named canals and lift schemes shown here, each with a real design and actual discharge figure instead of a blank.'},
+        {b:'Flood pump stations', t:'district-level flood channel and pump locations and capacities — the map shows named flood zones, not individual pump sites, because that data isn’t published anywhere we could find.'},
+        {b:'Karewa mapping', t:'a proper boundary of the valley’s ~2,500 km² of karewa upland, not the schematic overlay shown here.'},
+        {b:'Early risk prediction', t:'water and temperature trends read together, early enough to act on — the direction this whole model is pointed.'},
+      ],
+      footer:'None of this is abstract for Kashmir. 2014 showed that nature doesn’t check who you are before it reaches you — no VIP, no ordinary person, everyone is equal in front of it. That’s the responsibility behind this build, and why it needs more hands than one.',
+    },
+    {
+      key:'sources', dot:'var(--ink-dim)', label:'Sources', title:'Where every figure in this model comes from',
+      lead:'Every verified figure in this model is cited to a named, checkable source. Nothing here is invented — what’s modeled is labeled as modeled, and what’s measured is linked to where it was measured.',
+      isSources:true,
+      sources:[
+        {tag:'Rivers', title:'Rivers of Jammu and Kashmir', pub:'Wikipedia', url:'https://en.wikipedia.org/wiki/Rivers_of_Jammu_and_Kashmir'},
+        {tag:'Rivers', title:'Jhelum River', pub:'Wikipedia', url:'https://en.wikipedia.org/wiki/Jhelum_River'},
+        {tag:'Rivers', title:'Lidder River', pub:'Wikipedia', url:'https://en.wikipedia.org/wiki/Lidder_River'},
+        {tag:'Glaciers', title:'Glacier Melt: A Water Crisis Brewing In Kashmir', pub:'Kashmir Observer', url:'https://kashmirobserver.net/2025/01/20/glacier-melt-a-water-crisis-brewing-in-kashmir/'},
+        {tag:'Glaciers', title:'The fast disappearing glaciers of Kashmir', pub:'India Water Portal', url:'https://www.indiawaterportal.org/articles/fast-disappearing-glaciers-kashmir'},
+        {tag:'Orchards', title:'Sopore & Shopian: the two apple towns of Kashmir', pub:'Dilbaro Foods', url:'https://www.dilbaro.co.in/blog/apple-towns-of-kashmir-12/sopore-shopian-the-two-apple-towns-of-kashmir-that-power-indias-apple-industry-12'},
+        {tag:'Pastoral', title:'Kashmir’s mountains are getting harder for its pastoralists to read', pub:'India Water Portal', url:'https://www.indiawaterportal.org/climate-change/kashmirs-mountains-are-getting-harder-for-its-pastoralists-to-read'},
+        {tag:'Pastoral', title:'The Forest Rights Act and Muslim Gujjars in J&amp;K', pub:'India Development Review', url:'https://idronline.org/ground-up-stories/forest-rights-act-and-muslim-gujjars-in-kashmir/'},
+        {tag:'Forests', title:'In 2 years, Kashmir has lost forest cover larger than Anantnag city', pub:'Free Press Kashmir', url:'https://freepresskashmir.news/2025/01/31/in-2-years-kashmir-has-lost-forest-cover-larger-than-anantnag-city-mostly-for-construction-projects/'},
+        {tag:'Water bodies', title:'Has Kashmir wronged its water bodies?', pub:'Mongabay India', url:'http://india.mongabay.com/2018/05/has-kashmir-wronged-its-water-bodies/'},
+        {tag:'Solutions', title:'WUCMA steps up Wular Lake restoration, generates Rs 25 Cr from willow removal drive', pub:'Greater Kashmir', url:'https://www.greaterkashmir.com/kashmir/wucma-steps-up-wular-lake-restoration-generates-rs-25-cr-from-willow-removal-drive-11759923'},
+        {tag:'Population', title:'Population of Srinagar', pub:'FindEasy', url:'https://www.findeasy.in/population-of-srinagar/'},
+        {tag:'Districts', title:'Pulwama district', pub:'Wikipedia', url:'https://en.wikipedia.org/wiki/Pulwama_district'},
+        {tag:'Districts', title:'Shopian district', pub:'Wikipedia', url:'https://en.wikipedia.org/wiki/Shopian_district'},
+        {tag:'Districts', title:'District Profile, Anantnag', pub:'Govt. of Jammu & Kashmir', url:'https://anantnag.nic.in/district-profile/'},
+        {tag:'Youth & jobs', title:'J&amp;K’s urban youth unemployment nearly double the national average', pub:'Deccan Herald', url:'https://www.deccanherald.com/india/jammu-and-kashmir/jammu-and-kashmirs-urban-youth-unemployment-nearly-double-national-average-3842374'},
+        {tag:'Population', title:'Jammu and Kashmir Population 2023–26', pub:'StatisticsTimes', url:'https://statisticstimes.com/demographics/india/jammu-and-kashmir-population.php'},
+        {tag:'North Kashmir', title:'Bandipore', pub:'Wikipedia', url:'https://en.wikipedia.org/wiki/Bandipore'},
+        {tag:'North Kashmir', title:'Kupwara', pub:'Wikipedia', url:'https://en.wikipedia.org/wiki/Kupwara'},
+        {tag:'North Kashmir', title:'Sopore Subdivision, 2011 Census', pub:'VillageInfo.org', url:'https://villageinfo.org/sub-district/sopore'},
+        {tag:'Migration', title:'Bakarwal', pub:'Wikipedia', url:'https://en.wikipedia.org/wiki/Bakarwal'},
+        {tag:'Migration', title:'Pir Panjal Pass', pub:'Wikipedia', url:'https://en.wikipedia.org/wiki/Pir_Panjal_Pass'},
+        {tag:'Migration', title:'Gujjar-Bakarwal families begin annual return journey from J&amp;K’s high-altitude pastures', pub:'Rising Kashmir', url:'https://risingkashmir.com/top-stories/gujjar-bakarwal-families-begin-annual-return-journey-from-jk-high-altitude-pastures-12478140'},
+        {tag:'Water plants', title:'Rangil water treatment plant', pub:'Wikipedia', url:'https://en.wikipedia.org/wiki/Rangil_water_treatment_plant'},
+        {tag:'Water plants', title:'Interesting Numbers Related to Water Supply in Srinagar', pub:'Kashmir Forum', url:'https://www.kashmirforum.org/interesting-numbers-related-to-water/'},
+        {tag:'Irrigation', title:'Major &amp; Medium Irrigation Canals', pub:'Kashmir Irrigation &amp; Flood Control Dept.', url:'https://www.ifckashmir.com/Aboutus/Major%20%26%20Medium%20Irrigation%20Canals.pdf'},
+        {tag:'Mutton', title:'J&amp;K consumes 600 lakh kgs of mutton annually', pub:'Greater Kashmir', url:'https://www.greaterkashmir.com/business/jk-consumes-600-lakh-kgs-of-mutton-annually/'},
+        {tag:'Mutton', title:'Kashmir&rsquo;s Eid-ul-Adha livestock trade hits Rs 384 crore: KMDA', pub:'Kashmir Reader', url:'https://kashmirreader.com/2026/05/31/kashmirs-eid-ul-adha-livestock-trade-hits-rs-384-crore-kmda/'},
+        {tag:'Milk', title:'J&amp;K records over 3,177 thousand MT milk production, targets 3,300 thousand MT by March 2026', pub:'Greater Kashmir', url:'https://www.greaterkashmir.com/jammu/jk-records-over-3177-thousand-mt-milk-production-targets-3300-thousand-mt-by-march-2026'},
+        {tag:'Milk', title:'From modest to massive: J&amp;K milk production leaps 19.6% in 1 year', pub:'Greater Kashmir', url:'https://www.greaterkashmir.com/business/from-modest-to-massive-jk-milk-production-leaps-19-6-in-1-year-with-entrepreneurial-push/'},
+        {tag:'Vegetables', title:'From Rs 541 crore to Rs 1,239 crore: Kashmir&rsquo;s vegetable boom defies expectations', pub:'Greater Kashmir', url:'https://www.greaterkashmir.com/kashmir/from-rs-541-crore-to-rs-1239-crore-kashmirs-vegetable-boom-defies-expectations'},
+        {tag:'Districts', title:'Kashmir division', pub:'Wikipedia', url:'https://en.wikipedia.org/wiki/Kashmir_division'},
+        {tag:'Apples', title:'Kashmir&rsquo;s Apple Supremacy', pub:'Greater Kashmir', url:'https://www.greaterkashmir.com/business/kashmirs-apple-supremacy/'},
+        {tag:'Walnuts', title:'Kupwara earns fame as Valley&rsquo;s &lsquo;Walnut district&rsquo;', pub:'Kashmir News Observer', url:'https://www.kashmirnewsobserver.com/top-stories/kupwara-earns-fame-as-valley-s-walnut-district-kno-182112'},
+        {tag:'Saffron', title:'Saffron production touches decade high of 13.36 MTs', pub:'Greater Kashmir', url:'https://www.greaterkashmir.com/kashmir/saffron-production-touches-decade-high-of-13-36-mts/'},
+        {tag:'Saffron', title:'Saffron Revival In Kashmir: NSM Scheme Rejuvenates Over 2,500 HA In 13 Yrs', pub:'Kashmir Observer', url:'https://kashmirobserver.net/2024/02/22/saffron-revival-in-kashmir-nsm-scheme-rejuvenates-over-2500-ha-in-13-yrs/'},
+        {tag:'Saffron', title:'Kashmiri Saffron: Why is it so expensive, and how has the market revived?', pub:'Business Standard', url:'https://www.business-standard.com/india-news/kashmiri-saffron-why-is-it-so-expensive-and-how-has-the-market-revived-123070600475_1.html'},
+        {tag:'Apples', title:'1.5 Million Apple Trees: Qul Fruits Leads Major High-Density Plantation Drive In Kashmir', pub:'Kashmir Reader', url:'https://kashmirreader.com/2026/03/14/1-5-million-apple-trees-qul-fruits-leads-major-high-density-plantation-drive-in-kashmir/'},
+        {tag:'Apples', title:'From orchard economy to value chain — &#8377;6,003 Cr in fresh fruit sent outside J&amp;K, 2024&ndash;25', pub:'Greater Kashmir', url:'https://www.greaterkashmir.com/opinion/from-orchard-economy-to-value-chain-12568937'},
+        {tag:'Walnuts', title:'Why Kashmir&rsquo;s Walnut Wealth Isn&rsquo;t Reaching Global Markets', pub:'Kashmir Observer', url:'https://kashmirobserver.net/2026/01/why-kashmirs-walnut-wealth-isnt-reaching-global-markets/'},
+        {tag:'Irrigation', title:'Drip Irrigation Cost per Acre in India — A Full Guide', pub:'Agri Farming', url:'https://www.agrifarming.in/drip-irrigation-cost-per-acre-in-india-subsidies-included'},
+        {tag:'Karewa', title:'Nourishing soils of Kashmir’s karewas crumble under infrastructure', pub:'Mongabay India', url:'https://india.mongabay.com/2023/01/nourishing-soils-of-kashmirs-karewas-crumble-under-infrastructure/'},
+        {tag:'Dal Lake', title:'CAG report flags shrinking of Dal Lake, funds diversion', pub:'The Tribune', url:'https://www.tribuneindia.com/news/jammu-kashmir/cag-report-flags-shrinking-of-dal-lake-funds-diversion-483795'},
+        {tag:'Wular Lake', title:'Monitoring long-term shrinkage of Wular Lake using satellite data', pub:'Springer (Environmental Monitoring and Assessment)', url:'https://link.springer.com/article/10.1007/s10661-024-12496-w'},
+        {tag:'Flood Spill Channel', title:'Flood Spill Channel: Srinagar’s 120-year-old flood safety valve', pub:'Outlook India', url:'https://www.outlookindia.com/national/flood-spill-channel-srinagar-s-120-year-old-flood-safety-valve-news-207158'},
+        {tag:'LCMA', title:'LAWDA renamed Lake Conservation and Management Authority (LCMA)', pub:'Greater Kashmir', url:'https://www.greaterkashmir.com/todays-paper/city/lawda-renamed-lcma'},
+      ],
+    },
+  ];
+
+  var current = 0, currentPhase = 0, playing = false, timer = null;
+  var controlsEl = document.getElementById('controls');
+  var phaseToggleEl = document.getElementById('phaseToggle');
+  var phaseHintEl = document.getElementById('phaseHint');
+  var legendEl = document.getElementById('legend');
+  var panelEl = document.getElementById('panel');
+
+  var ALL_LAYER_IDS = [
+    'layer-river-plus5','layer-river-act','layer-river-connect',
+    'layer-sheep','layer-sheep-plus5','layer-sheep-act','layer-migration',
+    'layer-orchard','layer-orchard-plus5','layer-paddy','layer-paddy-plus5','layer-agri-act','layer-irrigation','layer-floodzones','layer-karewa',
+    'layer-forest-today','layer-forest-plus5','layer-forest-act',
+    'layer-urban-today','layer-urban-plus5','layer-wetland-plus5','layer-urban-act',
+    'layer-dalwular-plus5','layer-dalwular-act',
+    'layer-population-now','layer-population-plus5','layer-population-act','layer-north',
+    'layer-supplychain-now','layer-supplychain-plus5','layer-supplychain-act',
+    'layer-exports-now','layer-exports-plus5','layer-exports-act',
+    'layer-water-now','layer-water-plus5','layer-water-act',
+  ];
+  var ALL_WATER_IDS = ['wularToday','wularPlus5','hokersarToday','hokersarPlus5','dalToday','dalPlus5'];
+
+  stages.forEach(function(s, i){
+    var b = document.createElement('button');
+    b.className = 'stage-btn';
+    b.type = 'button';
+    b.innerHTML = '<span class="dot" style="background:'+s.dot+'"></span>'+s.label;
+    b.addEventListener('click', function(){ goTo(i, 0); });
+    controlsEl.appendChild(b);
+  });
+
+  var legendDefs = [
+    {c:'var(--river)', l:'River'},
+    {c:'var(--meadow)', l:'Grazing meadow'},
+    {c:'var(--orchard)', l:'Orchard'},
+    {c:'var(--paddy)', l:'Paddy field'},
+    {c:'var(--forest)', l:'Forest'},
+    {c:'var(--urban)', l:'Urban footprint'},
+    {c:'var(--water)', l:'Wetland / lake / water plant'},
+    {c:'var(--gold)', l:'District / population marker'},
+    {c:'var(--warn)', l:'Stress — if nothing changes'},
+    {c:'var(--forest)', l:'Fix — if we act'},
+  ];
+  legendDefs.forEach(function(d){
+    var item = document.createElement('div');
+    item.className = 'legend-item';
+    item.innerHTML = '<span class="legend-swatch" style="background:'+d.c+'"></span>'+d.l;
+    legendEl.appendChild(item);
+  });
+
+  function statRow(st, extraClass){
+    var cls = st.cls || extraClass;
+    return '<div class="stat-row'+(cls?(' '+cls):'')+(st.wide?' wide':'')+'"><div class="num mono">'+st.num+'</div><div class="lbl">'+st.lbl+'</div></div>';
+  }
+
+  function phaseAccentClass(pkey){
+    if (pkey === 'plus5') return 'flag';
+    if (pkey === 'act') return 'good';
+    return '';
+  }
+  function phaseColor(pkey){
+    if (pkey === 'plus5') return 'var(--warn)';
+    if (pkey === 'act') return 'var(--forest)';
+    return 'var(--ink)';
+  }
+
+  function renderPanel(s, phase){
+    if (s.isSources){
+      var srcHtml = s.sources.map(function(src){
+        return '<div class="source-item"><span class="stag">'+src.tag+'</span><a href="'+src.url+'" target="_blank" rel="noopener">'+src.title+'</a> &mdash; '+src.pub+'</div>';
+      }).join('');
+      panelEl.innerHTML =
+        '<div class="stage-label" style="color:'+s.dot+'">Stage '+(stages.indexOf(s)+1)+' of '+stages.length+' &middot; '+s.label+'</div>' +
+        '<h2>'+s.title+'</h2>' +
+        '<p class="lead">'+s.lead+'</p>' +
+        '<div class="source-list">'+srcHtml+'</div>' +
+        '<div class="divider"></div>' +
+        '<div class="footnote">Built with Burak Sciences’ Categorization &rarr; Pattern &rarr; Compounding &rarr; Velocity method &mdash; the same cascade logic behind our biomarker and demand models, applied here to land and water.</div>';
+      return;
+    }
+
+    if (s.isEpilogue){
+      var bodyHtml = s.body.map(function(p){ return '<p class="lead">'+p+'</p>'; }).join('');
+      var listHtml = '<ul class="epi-list">'+s.list.map(function(li){
+        return '<li><b>'+li.b+'</b> — '+li.t+'</li>';
+      }).join('')+'</ul>';
+      panelEl.innerHTML =
+        '<div class="stage-label" style="color:'+s.dot+'">Stage '+(stages.indexOf(s)+1)+' of '+stages.length+' &middot; '+s.label+'</div>' +
+        '<h2>'+s.title+'</h2>' +
+        '<p class="lead">'+s.lead+'</p>' +
+        bodyHtml +
+        '<div class="cascade-label">What we’re asking for next</div>' +
+        listHtml +
+        '<div class="divider"></div>' +
+        '<div class="footnote">'+s.footer+'</div>';
+      return;
+    }
+
+    var accent = phaseAccentClass(phase.pkey);
+    var heroColor = phaseColor(phase.pkey);
+    var heroHtml = phase.hero ? '<div class="hero2" style="--hc:'+heroColor+'"><div class="hnum" style="color:'+heroColor+'">'+phase.hero.num+'</div><div class="hlbl">'+phase.hero.lbl+'</div></div>' : '';
+    var statsHtml = phase.stats.map(function(st){ return statRow(st, accent); }).join('');
+    var tableHtml = '';
+    if (phase.distTable){
+      var dt = phase.distTable;
+      var theadHtml = '<tr>'+dt.headers.map(function(h){ return '<th>'+h+'</th>'; }).join('')+'</tr>';
+      var tbodyHtml = dt.rows.map(function(row){
+        return '<tr>'+row.map(function(cell, ci){ return '<td class="'+(ci===0?'dn':'num')+'">'+cell+'</td>'; }).join('')+'</tr>';
+      }).join('');
+      tableHtml = '<div class="dist-head">'+(dt.title||'Kashmir Division &mdash; by district')+'</div>' +
+        '<table class="dist-table"><thead>'+theadHtml+'</thead><tbody>'+tbodyHtml+'</tbody></table>';
+    }
+    var cascadeHtml = s.cascade ? '<div class="cascade-label">How this stage’s cascade was built</div><div class="cascade-row">'+s.cascade.map(function(c){
+      return '<div class="cascade-chip"><div class="cphase">'+c.phase+'</div><div class="ctext">'+c.text+'</div></div>';
+    }).join('')+'</div>' : '';
+    var placesHtml = (s.places||[]).map(function(p){ return '<span class="place-chip">'+p+'</span>'; }).join('');
+    panelEl.innerHTML =
+      '<div class="stage-label" style="color:'+s.dot+'">Stage '+(stages.indexOf(s)+1)+' of '+stages.length+' &middot; '+s.label+' &middot; <span style="color:'+heroColor+'">'+phase.plabel+'</span></div>' +
+      '<h2>'+s.title+'</h2>' +
+      '<p class="lead">'+s.lead+'</p>' +
+      heroHtml +
+      '<div class="stat-list">'+statsHtml+'</div>' +
+      tableHtml +
+      cascadeHtml +
+      (placesHtml ? '<div class="place-list">'+placesHtml+'</div>' : '') +
+      '<div class="divider"></div>' +
+      '<div class="footnote"><strong>Verified figures</strong> are drawn from published glaciology, forestry and wetland studies and government reporting, cited on the Sources stage. Figures tagged <strong>Modeled</strong> extrapolate a stated real trend forward; figures tagged <strong>Directional</strong> are realistic, sourced levers, not measured Kashmir-specific statistics. Map positions are schematic, for orientation.</div>';
+  }
+
+  function setLayers(activeIds){
+    ALL_LAYER_IDS.concat(ALL_WATER_IDS).forEach(function(id){
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.style.opacity = activeIds.indexOf(id) > -1 ? '1' : '0';
+    });
+  }
+
+  function renderPhaseToggle(s){
+    phaseToggleEl.innerHTML = '';
+    if (s.isSources || s.isEpilogue){ phaseToggleEl.hidden = true; phaseHintEl.hidden = true; return; }
+    phaseToggleEl.hidden = false; phaseHintEl.hidden = false;
+    s.phases.forEach(function(p, pi){
+      var b = document.createElement('button');
+      b.className = 'phase-btn p-'+p.pkey + (pi === currentPhase ? ' active' : '');
+      b.type = 'button';
+      var sub = p.pkey === 'now' ? 'present condition' : (p.pkey === 'plus5' ? 'if nothing changes' : 'the fix');
+      b.innerHTML = p.plabel + '<span class="psub">'+sub+'</span>';
+      b.addEventListener('click', function(){ goTo(current, pi); });
+      phaseToggleEl.appendChild(b);
+    });
+    phaseHintEl.textContent = s.key === 'bigpicture'
+      ? 'Every stage’s map layer, combined — toggle to watch the whole valley move at once.'
+      : 'Toggle to watch this stage’s own map layer squeeze, redden or recover.';
+  }
+
+  function goTo(i, pi){
+    current = i; currentPhase = pi || 0;
+    var s = stages[i];
+    document.querySelectorAll('.stage-btn').forEach(function(b, idx){
+      b.classList.toggle('active', idx === i);
+    });
+    renderPhaseToggle(s);
+    if (s.isSources || s.isEpilogue){
+      setLayers([]);
+      renderPanel(s, null);
+    } else {
+      if (currentPhase >= s.phases.length) currentPhase = 0;
+      var phase = s.phases[currentPhase];
+      setLayers(phase.layers);
+      renderPanel(s, phase);
+    }
+    panelEl.scrollIntoView === undefined ? null : null;
+  }
+
+  var zoomBtn = document.getElementById('zoomBtn');
+  var zoomOverlay = document.getElementById('zoomOverlay');
+  var zoomPanel = document.getElementById('zoomPanel');
+  var zoomTarget = document.getElementById('zoomTarget');
+  var zoomClose = document.getElementById('zoomClose');
+  function openZoom(){
+    var live = document.getElementById('mapSvg');
+    zoomTarget.innerHTML = '';
+    zoomTarget.appendChild(live.cloneNode(true));
+    zoomOverlay.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+  function closeZoom(){
+    zoomOverlay.hidden = true;
+    document.body.style.overflow = '';
+  }
+  zoomBtn.addEventListener('click', openZoom);
+  zoomClose.addEventListener('click', closeZoom);
+  zoomOverlay.addEventListener('click', function(e){ if (e.target === zoomOverlay) closeZoom(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !zoomOverlay.hidden) closeZoom(); });
+
+  goTo(0, 0);
+})();
+</script>
+
+</body></html>
